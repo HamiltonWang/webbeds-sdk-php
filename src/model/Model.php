@@ -8,6 +8,6 @@ namespace weblbeds\hotel_api_sdk\model;
 
 use weblbeds\hotel_api_sdk\generic\DataContainer;
 
-abstract class ApiModel extends DataContainer
+abstract class Model extends DataContainer
 {
 }

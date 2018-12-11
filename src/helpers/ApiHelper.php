@@ -6,8 +6,9 @@
  */
 namespace webbeds\hotel_api_sdk\helpers;
 
-use hotelbeds\hotel_api_sdk\generic\DataContainer;
+use webbeds\hotel_api_sdk\generic\DataContainer;
 use Zend\Json\Json;
+
 abstract class ApiHelper extends DataContainer
 {
     public function __toString()

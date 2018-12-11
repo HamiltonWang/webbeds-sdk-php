@@ -35,7 +35,7 @@ class HotelApiClient
     /**
      * @var string Stores locally client api key
      */
-    private $apiKey;
+    private $userName;
 
     /**
      * @var string Stores locally client password 
@@ -45,7 +45,7 @@ class HotelApiClient
     /**
      * @var string Stores locally client api key
      */
-    private $apiKey;
+    private $userName;
 
     /**
      * @var Client HTTPClient object
@@ -64,16 +64,16 @@ class HotelApiClient
     /**
      * HotelApiClient Constructor they initialize SDK Client.
      * @param string $url Base URL of hotel-api service.
-     * @param string $apiKey Client APIKey
+     * @param string $userName Client userName
      * @param string $password
      * @param ApiVersion $version Version of Hotel API Interface
      * @param int $timeout HTTP Client timeout
      * @param string $adapter Customize adapter for http request
      */
-    public function __construct($url, $apiKey, $password, ApiVersion $version, $timeout=30, $adapter=null)
+    public function __construct($url, $userName, $password, ApiVersion $version, $timeout=30, $adapter=null)
     {
         $this->lastRequest = null;
-        $this->apiKey = trim($apiKey);
+        $this->userName = trim($userName);
         $this->password = trim($password);
         $this->httpClient = new Client();
         if($adapter!=null) {
@@ -126,8 +126,8 @@ class HotelApiClient
     private function callApi(ApiRequest $request)
     {
         try {
-            $signature = hash("sha256", $this->apiKey.$this->sharedSecret.time());
-            $this->lastRequest = $request->prepare($this->apiKey, $signature);
+            $signature = hash("sha256", $this->userName.$this->password.time());
+            $this->lastRequest = $request->prepare($this->userName, $signature);
             $response = $this->httpClient->send($this->lastRequest);
             $this->lastResponse = $response;
         } catch (\Exception $e) {
