@@ -24,6 +24,10 @@
 
 namespace webbeds\hotel_api_sdk;
 
+use webbeds\hotel_api_sdk\model\AuditData;
+use webbeds\hotel_api_sdk\types\ApiVersion;
+use webbeds\hotel_api_sdk\types\ApiVersions;
+use webbeds\hotel_api_sdk\types\HotelSDKException;
 
 use Zend\Http\Client;
 use Zend\Http\Request;
@@ -32,11 +36,6 @@ use Zend\Uri\UriFactory;
 
 class HotelApiClient
 {
-    /**
-     * @var string Stores locally client api key
-     */
-    private $userName;
-
     /**
      * @var string Stores locally client password 
      */
@@ -104,21 +103,21 @@ class HotelApiClient
         if (!class_exists($sdkClassReq) && !class_exists($sdkClassResp)){
             throw new HotelSDKException("$sdkClassReq or $sdkClassResp not implemented in SDK");
         }
-        if($sdkClassReq == "webbeds\\hotel_api_sdk\\messages\\BookingConfirmReq"){
-        	$req = new $sdkClassReq($this->apiUri, $this->apiPaymentUri, $args[0]);
-        }else{
+        //if($sdkClassReq == "webbeds\\hotel_api_sdk\\messages\\BookingConfirmReq"){
+        //	$req = new $sdkClassReq($this->apiUri, $this->apiPaymentUri, $args[0]);
+        //}else{
 	        if ($args !== null && count($args) > 0){
 	            $req = new $sdkClassReq($this->apiUri, $args[0]);
 	        } else {
 	        	$req = new $sdkClassReq($this->apiUri);
 	        }
-        }
+        //}
         return new $sdkClassResp($this->callApi($req));
     }
 
     /**
-     * Generic API Call, this is a internal used method for sending all requests to webservice and paRespe
-     * JSON response and transforms to PHP-Array object.
+     * Generic API Call, this is a internal used method for sending all requests to RESTful webservice 
+     * XML response and transforms to PHP-Array object.
      * @param ApiRequest $request API Abstract request helper for construct request
      * @return array Response data into PHP Array structure
      * @throws HotelSDKException Calling exception, can capture remote server auditdata if exists.
@@ -126,8 +125,7 @@ class HotelApiClient
     private function callApi(ApiRequest $request)
     {
         try {
-            $signature = hash("sha256", $this->userName.$this->password.time());
-            $this->lastRequest = $request->prepare($this->userName, $signature);
+            $this->lastRequest = $request; // ->prepare($this->userName, $signature);
             $response = $this->httpClient->send($this->lastRequest);
             $this->lastResponse = $response;
         } catch (\Exception $e) {
@@ -146,7 +144,7 @@ class HotelApiClient
            }
             throw new HotelSDKException($response->getReasonPhrase().': '.$message, $auditData);
         }
-        return \Zend\Json\Json::decode(mb_convert_encoding($response->getBody(),'UTF-8'), \Zend\Json\Json::TYPE_ARRAY);
+        return \Zend\XML\Json::decode(mb_convert_encoding($response->getBody(),'UTF-8'), \Zend\Json\Json::TYPE_ARRAY);
     }
 
     /**
