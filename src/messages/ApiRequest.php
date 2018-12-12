@@ -30,6 +30,10 @@ abstract class ApiRequest implements ApiCallTypes
      */
     private $dataRQ;
     /**
+     * @var string operation method
+     */
+    private $operation;
+    /**
      * ApiRequest constructor.
      * @param ApiUri $baseUri Base URI of service
      * @param string $operation Endpoint name of operation
@@ -38,8 +42,10 @@ abstract class ApiRequest implements ApiCallTypes
     {
         $this->request = new Request();
         $this->baseUri = new Http($baseUri);
+        $this->operation =  $operation;
         $this->baseUri->setPath($baseUri->getPath()."/".$operation);
     }
+
     /**
      * @param ApiHelper $dataRQ Set data request to request
      */
@@ -47,6 +53,7 @@ abstract class ApiRequest implements ApiCallTypes
     {
         $this->dataRQ = $dataRQ;
     }
+    
     /**
      * @param string $apiKey API Key of client
      * @param string $signature Computed signature for made this call

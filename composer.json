@@ -1,0 +1,37 @@
+{
+    "name": "webbeds/hotel-api-sdk-php",
+    "description": "WebBeds Hotel-API SDK for PHP",
+    "type": "library",
+    "require": {
+        "php": ">= 5.2 <7.2",
+        "zendframework/zend-http": "^2.5",
+        "zendframework/zend-json": "^2.5",
+        "nicmart/string-template": "v0.1.0",
+        "zendframework/zend-config": "2.5.1"
+    },
+    "require-dev": {
+        "php": ">= 5.2 <7.2",
+        "zendframework/zend-http": "^2.5",
+        "zendframework/zend-json": "^2.5",
+        "phpdocumentor/phpdocumentor": "2.*",
+        "phpunit/phpunit": "7.1"
+    },
+    "license": "LGPL-2.1",
+    "authors": [
+        {
+            "name": "Hamilton Wong",
+            "email": "hamilton@aiart.io"
+        },
+        {
+            "name": "Tomeu Capo",
+            "email": "t.capo@hotelbeds.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": { "webbeds\\hotel_api_sdk\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "webbeds\\hotel_api_sdk\\Tests\\": "tests/" }
+    }
+}

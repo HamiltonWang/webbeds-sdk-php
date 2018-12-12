@@ -15,8 +15,10 @@ use StringTemplate;
  */
 class ApiUri extends Http
 {
-    const BASE_PATH='/PostGet/NonStaticXMLAPI.asmx';
-    const API_URI_FORMAT = '{version}/{basepath}';
+    const Q_PATH='?op=';
+    const API_URI_FORMAT = '/{version}/{}';
+        ///{version}/NonStaticXMLAPI.asmx
+        ///{version}/Booking.asmx
     /**
      * Prepare URL for the operation
      * @param ApiVersion $version Version of API used for client

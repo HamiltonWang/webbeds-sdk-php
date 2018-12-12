@@ -1,5 +1,5 @@
-
 <?php
+
 /**
  * #%L
  * hotel-api-sdk
@@ -37,6 +37,10 @@ use Zend\Uri\UriFactory;
 class HotelApiClient
 {
     /**
+     * @var apiUri Well formatted URI of service for Book
+     */
+    private $apiUri;
+    /**
      * @var string Stores locally client password 
      */
     private $password;
@@ -59,6 +63,10 @@ class HotelApiClient
      * @var Response Last sent request
      */
     private $lastResponse;
+    /**
+     * @var string Last SDK Method
+     */
+    private $lastSdkMethod;
 
     /**
      * HotelApiClient Constructor they initialize SDK Client.
@@ -98,13 +106,14 @@ class HotelApiClient
      */
     public function __call($sdkMethod, array $args=null)
     {
+        $this->lastSdkMethod = $sdkMethod;
         $sdkClassReq = "webbeds\\hotel_api_sdk\\messages\\".$sdkMethod."Req";
         $sdkClassResp = "webbeds\\hotel_api_sdk\\messages\\".$sdkMethod."Resp";
         if (!class_exists($sdkClassReq) && !class_exists($sdkClassResp)){
             throw new HotelSDKException("$sdkClassReq or $sdkClassResp not implemented in SDK");
         }
         //if($sdkClassReq == "webbeds\\hotel_api_sdk\\messages\\BookingConfirmReq"){
-        //	$req = new $sdkClassReq($this->apiUri, $this->apiPaymentUri, $args[0]);
+        //	$req = new $sdkClassReq($this->apiUri, $args[0]);
         //}else{
 	        if ($args !== null && count($args) > 0){
 	            $req = new $sdkClassReq($this->apiUri, $args[0]);
@@ -119,7 +128,7 @@ class HotelApiClient
      * Generic API Call, this is a internal used method for sending all requests to RESTful webservice 
      * XML response and transforms to PHP-Array object.
      * @param ApiRequest $request API Abstract request helper for construct request
-     * @return array Response data into PHP Array structure
+     * @return Object SimpleXMLElement Object
      * @throws HotelSDKException Calling exception, can capture remote server auditdata if exists.
      */
     private function callApi(ApiRequest $request)
@@ -132,19 +141,31 @@ class HotelApiClient
             throw new HotelSDKException("Error accessing API: " . $e->getMessage());
         }
         if ($response->getStatusCode() !== 200) {
-           $auditData = null;$message=''; $errorResponse = null;
+           $auditData = null; $message=''; $errorResponse = null;
            if ($response->getBody() !== null) {
                try {
-                   $errorResponse = \Zend\Json\Json::decode($response->getBody(), \Zend\Json\Json::TYPE_ARRAY);
-                   $auditData = new AuditData($errorResponse["auditData"]);
-                   $message =$errorResponse["error"]["code"].' '.$errorResponse["error"]["message"];
+                   $root = $this->lastSdkMethod . "Result";
+                   $errorResponse = simplexml_load_string( $response->getBody() );
+                   //$auditData = new AuditData($errorResponse["auditData"]);
+                   $message =$errorResponse[$root]["Error"]["ErrorType"].' '.$errorResponse[$root]["Error"]["Message"];
                } catch (\Exception $e) {
                    throw new HotelSDKException($response->getReasonPhrase().': '.$response->getBody());
                }
            }
             throw new HotelSDKException($response->getReasonPhrase().': '.$message, $auditData);
         }
-        return \Zend\XML\Json::decode(mb_convert_encoding($response->getBody(),'UTF-8'), \Zend\Json\Json::TYPE_ARRAY);
+        return simplexml_load_string( $response->getBody() );
+    }
+
+    /**
+     * @return array convertXMLToJson convert SimpleXMLElement Object to JSON format
+     */
+    public function convertObjectToJson($xml_string)
+    {
+        $json = json_encode($xml_string);
+        $array = json_decode($json,TRUE);
+
+        return $array;
     }
 
     /**
@@ -154,11 +175,20 @@ class HotelApiClient
     {
         return $this->lastRequest;
     }
+
     /**
      * @return Response getLastResponse Returns entire raw response
      */
     public function getLastResponse()
     {
         return $this->lastResponse;
+    }
+
+    /**
+     * @return Response getLastResponse Returns entire raw response
+     */
+    public function getLastSdkMethod()
+    {
+        return $this->lastSdkMethod;
     }
 }
