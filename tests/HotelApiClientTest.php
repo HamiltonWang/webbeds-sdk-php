@@ -48,6 +48,7 @@ class HotelApiClientTest extends TestCase
             $cfgApi["userName"],
             $cfgApi["password"],
             new ApiVersion(ApiVersions::V1_0),
+            "search",
             $cfgApi["timeout"],
             null);
     }

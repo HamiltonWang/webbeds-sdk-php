@@ -15,19 +15,29 @@ use StringTemplate;
  */
 class ApiUri extends Http
 {
+    /*
+        http://search.fitruums.com/1/PostGet/NonStaticXMLAPI.asmx
+        http://search.fitruums.com/1/PostGet/StaticXMLAPI.asmx
+
+        e.g. http://search.fitruums.com/1/PostGet/NonStaticXMLAPI.asmx?op=GetLanguages
+    */
+
     const Q_PATH='?op=';
-    const API_URI_FORMAT = '/{version}/{}';
+    const BASE_PATH='PostGet';
+    const API_URI_FORMAT = '/{version}/{basepath}/{lib}/{qpath}';
         ///{version}/NonStaticXMLAPI.asmx
         ///{version}/Booking.asmx
     /**
      * Prepare URL for the operation
      * @param ApiVersion $version Version of API used for client
      */
-    public function prepare(ApiVersion $version)
+    public function prepare(ApiVersion $version, string $lib)
     {
         $strSubs = new StringTemplate\Engine;
         $this->setPath($strSubs->render(self::API_URI_FORMAT,
             ["basepath"  => self::BASE_PATH,
-             "version"   => $version->getVersion()]));
+             "version"   => $version->getVersion(),
+             "qpath"     => self::Q_PATH,
+             "lib"       => $lib]));
     }
 }
