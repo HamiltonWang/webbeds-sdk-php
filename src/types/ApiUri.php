@@ -22,9 +22,9 @@ class ApiUri extends Http
         e.g. http://search.fitruums.com/1/PostGet/NonStaticXMLAPI.asmx?op=GetLanguages
     */
 
-    const Q_PATH='?op=';
+    //const Q_PATH='op=';
     const BASE_PATH='PostGet';
-    const API_URI_FORMAT = '/{version}/{basepath}/{lib}/{qpath}';
+    const API_URI_FORMAT = '/{version}/{basepath}/{libpath}/';
         ///{version}/NonStaticXMLAPI.asmx
         ///{version}/Booking.asmx
     /**
@@ -34,10 +34,17 @@ class ApiUri extends Http
     public function prepare(ApiVersion $version, string $lib)
     {
         $strSubs = new StringTemplate\Engine;
+        
+        if ($lib == 'search') {
+            //NonStaticXMLAPI.asmx
+            $libPath = 'NonStaticXMLAPI.asmx';
+        } else {
+            // Booking.asmx
+            $libPath = 'Booking.asmx';
+        }
         $this->setPath($strSubs->render(self::API_URI_FORMAT,
             ["basepath"  => self::BASE_PATH,
              "version"   => $version->getVersion(),
-             "qpath"     => self::Q_PATH,
-             "lib"       => $lib]));
+             "libpath"   => $libPath]));
     }
 }

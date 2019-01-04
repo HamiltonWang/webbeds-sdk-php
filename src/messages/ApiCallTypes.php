@@ -12,7 +12,7 @@ namespace webbeds\hotel_api_sdk\messages;
 interface ApiCallTypes
 {
     const AVAILABILITY = "hotels";
-    const LANGUAGE = "language";
+    const GET_LANGUAGES = "GetLanguages";
     const CHECK_AVAIL = "checkrates";
     const STATUS = "status";
 }

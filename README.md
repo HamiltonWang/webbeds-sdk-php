@@ -9,7 +9,9 @@ http://search.fitruums.com/1
 
 ### API url
 http://search.fitruums.com/1/PostGet/NonStaticXMLAPI.asmx
-http://search.fitruums.com/1/PostGet/StaticXMLAPI.asmx
+
+Booking operations
+http://book.fitruums.com/1/SOAP/Booking.asmx
 
 e.g. http://search.fitruums.com/1/PostGet/NonStaticXMLAPI.asmx?op=GetLanguages
 

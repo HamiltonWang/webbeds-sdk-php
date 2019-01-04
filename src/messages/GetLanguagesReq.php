@@ -7,24 +7,25 @@
 namespace webbeds\hotel_api_sdk\messages;
 
 use webbeds\hotel_api_sdk\types\ApiUri;
-use webbeds\hotel_api_sdk\helpers\Language;
+use webbeds\hotel_api_sdk\helpers\GetLanguages;
 use Zend\Http\Request;
+
 
 /**
  * Class LanguageReq
  * @package webbeds\hotel_api_sdk\messages
  */
-class LanguageReq extends ApiRequest
+class GetLanguagesReq extends ApiRequest
 {
     /**
      * LanguageReq constructor.
      * @param ApiUri $baseUri
-     * @param Language $languageDataReq
+     * @param GetLanguages $getLanguagesReq
      */
-    public function __construct(ApiUri $baseUri, Language $languageDataReq)
+    public function __construct(ApiUri $baseUri, GetLanguages $getLanguagesReq)
     {
-        parent::__construct($baseUri, self::LANGUAGE);
+        parent::__construct($baseUri, self::GET_LANGUAGES);
         $this->request->setMethod(Request::METHOD_POST);
-        $this->setDataRequest($languageDataReq);
+        $this->setDataRequest($getLanguagesReq);
     }
 }

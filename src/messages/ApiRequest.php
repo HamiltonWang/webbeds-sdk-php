@@ -30,20 +30,20 @@ abstract class ApiRequest implements ApiCallTypes
      */
     private $dataRQ;
     /**
-     * @var string operation method
+     * @var string sdkMethod method
      */
-    private $operation;
+    private $sdkMethod;
     /**
      * ApiRequest constructor.
      * @param ApiUri $baseUri Base URI of service
-     * @param string $operation Endpoint name of operation
+     * @param string $sdkMethod Endpoint name of SDK Method
      */
-    public function __construct(ApiUri $baseUri, $operation)
+    public function __construct(ApiUri $baseUri, string $sdkMethod)
     {
         $this->request = new Request();
         $this->baseUri = new Http($baseUri);
-        $this->operation =  $operation;
-        $this->baseUri->setPath($baseUri->getPath()."/".$operation);
+        $this->sdkMethod =  $sdkMethod;
+        $this->baseUri->setPath($baseUri->getPath().$sdkMethod);
     }
 
     /**
@@ -59,19 +59,24 @@ abstract class ApiRequest implements ApiCallTypes
      * @param string $signature Computed signature for made this call
      * @return Request Return well constructed HTTP Request
      */
-    public function prepare($apiKey, $signature)
+    public function prepare($userName, $password, $lib)
     {
-        if (empty($apiKey) || empty($signature))
+        if (empty($userName) || empty($password))
             throw new \InvalidArgumentException("HotelApiClient cannot be created without specifying an API key and signature");
+        
         $this->request->setUri($this->baseUri);
         $this->request->getHeaders()->addHeaders([
-            //'Api-Key' => $apiKey,
-            //'X-Signature' => $signature,
-            'Accept' => 'application/xml',
+            //'Api-Key' => $userName,
+            //'X-Signature' => $password,
+            //'Content-Type' => 'application/x-www-form-urlencoded',
             'Accept-Charset' => 'utf-8',
             'Accept-Encoding' => 'gzip, deflate',
             'User-Agent' => 'hotel-api-sdk-php'
         ]);
+
+        //$this->dataRQ->userName = $userName;
+        //$this->dataRQ->password = $password;
+
         if (!empty($this->dataRQ)) {
             switch($this->request->getMethod()) {
                 case Request::METHOD_GET:
@@ -79,9 +84,13 @@ abstract class ApiRequest implements ApiCallTypes
                         break;
                 case Request::METHOD_POST:
                         $this->request->getHeaders()->addHeaders(['Content-Type' => 'application/x-www-form-urlencoded']);
-                        $this->request->setContent("".$this->dataRQ);
+                        // $this->request->setContent("".$this->dataRQ);  // setContent is originally for Json
+                        $this->request->setpost(new Parameters($this->dataRQ->toArray()));
+
             }
         }
+
+        print_r($this->request->getContent());
         return $this->request;
     }
 }

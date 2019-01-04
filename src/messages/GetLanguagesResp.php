@@ -22,29 +22,43 @@
  */
 namespace webbeds\hotel_api_sdk\messages;
 
+//use webbeds\hotel_api_sdk\model\Languages;
+use webbeds\hotel_api_sdk\model\LanguageIterator;
+
 /**
  * Class LanguageResp
  * @package webbeds\hotel_api_sdk\messages
- * @property AuditData auditData Relevant internal information
- * @property Hotels hotels List of available hotels
+ * @property Languages languages used for hotel content
  */
-class LanguageResp extends ApiResponse
+class GetLanguagesResp extends ApiResponse
 {
+    /**
+     * @param array $rsData Array of data response for languages
+     */
     public function __construct(array $rsData)
     {
         parent::__construct($rsData);
-        if (array_key_exists("hotels", $rsData)) {
-            $hotelsObject = new Hotels($this->hotels);
-            $this->hotels = $hotelsObject;
+        if (array_key_exists("languages", $rsData)) {
+            //$languagesObject = new Languages($this->languages);
+            //$this->languages = $languagesObject;
+            $this->languages = $rsData['languages']['language'];
         }
     }
     /**
-     * @return bool Returns True when response hotels list is empty. False otherwise.
+     * @return bool Returns True when response language list is empty. False otherwise.
      */
     public function isEmpty()
     {
-        return ($this->hotels->total === 0);
+        return (count( $this->languages)=== 0);
     }
+
+    public function iterator()
+    {
+        if ($this->languages !== null)
+            return new LanguageIterator($this->languages);
+        return new LanguageIterator([]);
+    }
+
     /**
      * @return AuditData Return class of audit
      */
@@ -52,4 +66,5 @@ class LanguageResp extends ApiResponse
     {
         return new AuditData($this->auditData);
     }
+
 }

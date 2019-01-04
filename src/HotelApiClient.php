@@ -24,10 +24,13 @@
 
 namespace webbeds\hotel_api_sdk;
 
+use webbeds\hotel_api_sdk\messages\GetLanguagesResp;
+
 use webbeds\hotel_api_sdk\model\AuditData;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
 use webbeds\hotel_api_sdk\types\HotelSDKException;
+use webbeds\hotel_api_sdk\messages\ApiRequest;
 
 use Zend\Http\Client;
 use Zend\Http\Request;
@@ -124,9 +127,12 @@ class HotelApiClient
 	            $req = new $sdkClassReq($this->apiUri, $args[0]);
 	        } else {
 	        	$req = new $sdkClassReq($this->apiUri);
-	        }
+            }
+            
+            //echo "req type: " . get_class($req). "\n";
         //}
-        return new $sdkClassResp($this->callApi($req));
+        //return new $sdkClassResp($this->callApi($req));
+        return $this->callApi($req);
     }
 
     /**
@@ -139,12 +145,14 @@ class HotelApiClient
     private function callApi(ApiRequest $request)
     {
         try {
-            $this->lastRequest = $request; // ->prepare($this->userName, $signature);
+            $this->lastRequest = $request->prepare($this->userName, $this->password, $this->lib);
             $response = $this->httpClient->send($this->lastRequest);
+            //$response = $this->httpClient->send();
             $this->lastResponse = $response;
         } catch (\Exception $e) {
             throw new HotelSDKException("Error accessing API: " . $e->getMessage());
         }
+       // echo '--> getBody:' . $response->getBody();
         if ($response->getStatusCode() !== 200) {
            $auditData = null; $message=''; $errorResponse = null;
            if ($response->getBody() !== null) {
@@ -159,17 +167,66 @@ class HotelApiClient
            }
             throw new HotelSDKException($response->getReasonPhrase().': '.$message, $auditData);
         }
-        return simplexml_load_string( $response->getBody() );
+        $resp = simplexml_load_string( mb_convert_encoding($response->getBody(),'UTF-8'));
+        //print_r( '--> getBody simplexml_load_string:' . $json);
+        return $resp;
     }
 
     /**
-     * @return array convertXMLToJson convert SimpleXMLElement Object to JSON format
+     * @return array ConvertXMLToNative convert XML Object to Native format
      */
-    public function convertObjectToJson($xml_string)
+    public function ConvertXMLToNative($xml_string, $sdkMethod)
     {
-        $json = json_encode($xml_string);
-        $array = json_decode($json,TRUE);
+        $sdkClassResp = "webbeds\\hotel_api_sdk\\messages\\".$sdkMethod."Resp";
+        $array = $this->ConvertXMLToArray2($xml_string);
+        return new $sdkClassResp($array);
+    }
+    
 
+    /**
+     * @return array ConvertXMLToJson convert SimpleXMLElement Object to JSON format
+     */
+    public function ConvertXMLToJson($xml_string)
+    {
+        $json = json_encode( $xml_string );
+
+        return $json;
+    }
+
+    /**
+     * @return array ConvertXMLToArray convert XMl Object to Array format
+     */
+    public function ConvertXMLToArray($xml_string)
+    {
+        // sample
+        //echo '--> acccessing data' .(string)$xml_string->languages->language[0]->asXml();
+        $result = $this->toArray($xml_string);
+        //print_r('--> array inside(after):' . (string)$result->languages);
+        return $result;
+    }
+
+    /**
+     * @return array ConvertXMLToArray2 convert XMl Object to Array format
+     */
+    public function ConvertXMLToArray2($xml_string)
+    {
+        $json = json_encode( $xml_string );
+        $array = json_decode($json, TRUE);
+        //echo $xml_string;
+
+        return $array;
+    }
+
+    private function toArray(\SimpleXMLElement $xml) {
+        
+        $array = (array)$xml;
+        //echo 'sss:';
+        //print_r( $array);
+        foreach ( array_slice($array, 0) as $key => $value ) {
+            if ( $value instanceof SimpleXMLElement ) {
+                $array[$key] = empty($value) ? NULL : $this->toArray($value);
+            }
+        }
         return $array;
     }
 

@@ -12,5 +12,4 @@ vendor
 output
 docs
 
-tests/config/
-tests/config/
+tests/config/*.ini

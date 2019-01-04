@@ -8,16 +8,19 @@ namespace webbeds\hotel_api_sdk\helpers;
 
 
 /**
- * Class Language
+ * Class GetLanguages
  * @package webbeds\hotel_api_sdk\helpers
 */
-class Language extends ApiHelper
+class GetLanguages extends ApiHelper
 {
     /**
-     * Language constructor.
+     * GetLanguages constructor.
      */
     public function __construct()
     {
-        $this->validFields = [];
+        $this->validFields = [
+            "userName" => "string",
+            "password" => "string"
+        ];
     }
 }
