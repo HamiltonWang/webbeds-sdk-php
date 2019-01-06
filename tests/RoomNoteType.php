@@ -25,8 +25,8 @@
 use webbeds\hotel_api_sdk\HotelApiClient;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
-use webbeds\hotel_api_sdk\messages\GetLanguagesResp;
-use webbeds\hotel_api_sdk\model\Language;
+use webbeds\hotel_api_sdk\messages\GetRoomNoteTypesResp;
+use webbeds\hotel_api_sdk\model\RoomNoteType;
 use PHPUnit\Framework\TestCase;
 
 class HotelApiClientTest extends TestCase
@@ -43,7 +43,10 @@ class HotelApiClientTest extends TestCase
      * @var string password Password to use webBeds API
      */
     private $password;
-
+    /**
+     * @var string language language to retrieve your data
+     */
+    private $language;
 
     protected function setUp()
     {
@@ -62,20 +65,23 @@ class HotelApiClientTest extends TestCase
             "search",
             $cfgUri["timeout"],
             null);
+
+        $this->language = 'en';
     }
 
     /**
-     * API Language Method test
+     * API RoomNoteType Method test
      */
-    public function testLanguagesReq()
+    public function testRoomNoteTypesReq()
     {
-        $reqData = new \webbeds\hotel_api_sdk\helpers\GetLanguages();
+        $reqData = new \webbeds\hotel_api_sdk\helpers\GetRoomNoteTypes();
         
         $reqData->userName = $this->userName;
         $reqData->password = $this->password;
+        $reqData->language = $this->language;
         
-        $resp = $this->apiClient->GetLanguages($reqData);
-        //echo '--> testLanguagesReq:';
+        $resp = $this->apiClient->GetRoomNoteTypes($reqData);
+        //echo '--> testRoomNoteTypesReq:';
         //print_r( $resp);
         
         $this->assertNotEmpty($resp);
@@ -83,34 +89,36 @@ class HotelApiClientTest extends TestCase
     }
 
     /**
-     * Testing GetLanguagesResp results of GetLanguages method
+     * Testing GetRoomNoteTypesResp results of GetRoomNoteTypes method
      *
-     * @depends testLanguagesReq
+     * @depends testRoomNoteTypesReq
      */
-    public function testLanguageXMLResp(SimpleXMLElement $xmlResp)
+    public function testRoomNoteTypeXMLResp(SimpleXMLElement $xmlResp)
     {
         //print_r( $this->apiClient->ConvertXMLToArray($xmlResp) );
-        //print_r( $this->apiClient->ConvertXMLToNative($resp, "GetLanguages") );
+        //print_r( $this->apiClient->ConvertXMLToNative($resp, "GetRoomNoteTypes") );
         //print_r($xmlResp);
 
-        $this->assertEquals((string)$xmlResp->languages->language[0]->name, "English");
-        $native = $this->apiClient->ConvertXMLToNative($xmlResp, "GetLanguages");
+        $this->assertEquals((string)$xmlResp->noteTypes->noteType[0]->attributes()->text, "Gala Dinner included");
+        $native = $this->apiClient->ConvertXMLToNative($xmlResp, "GetRoomNoteTypes");
 
-        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\GetLanguagesResp");
+        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\GetRoomNoteTypesResp");
         return $native;
     }
 
     /**
-     * Testing GetLanguagesResp results of GetLanguages method
+     * Testing GetRoomNoteTypesResp results of GetRoomNoteTypes method
      *
-     * @depends testLanguageXMLResp
+     * @depends testRoomNoteTypeXMLResp
      */
-    public function testLanguageResp(GetLanguagesResp $getLanguagesResp)
+    public function testRoomNoteTypeResp(GetRoomNoteTypesResp $getRoomNoteTypesResp)
     {
         // Check is response is empty or not
-        $this->assertFalse($getLanguagesResp->isEmpty(), "Response is empty!");
-        foreach ($getLanguagesResp->iterator() as $isoCode => $languageData) {
-            echo $languageData->isoCode . ', '.$languageData->name. "\r\n";
-        }
+        $this->assertFalse($getRoomNoteTypesResp->isEmpty(), "Response is empty!");
+        $this->assertEquals($getRoomNoteTypesResp->iterator()->current()->text, "Gala Dinner included");
+        /*
+        foreach ($getRoomNoteTypesResp->iterator() as $id => $roomNoteTypeData) {
+            echo $roomNoteTypeData->id . ', '.$roomNoteTypeData->text . "\r\n";
+        }*/
     }
 }

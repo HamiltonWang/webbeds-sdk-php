@@ -25,8 +25,8 @@
 use webbeds\hotel_api_sdk\HotelApiClient;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
-use webbeds\hotel_api_sdk\messages\GetLanguagesResp;
-use webbeds\hotel_api_sdk\model\Language;
+use webbeds\hotel_api_sdk\messages\GetHotelNoteTypesResp;
+use webbeds\hotel_api_sdk\model\HotelNoteType;
 use PHPUnit\Framework\TestCase;
 
 class HotelApiClientTest extends TestCase
@@ -43,7 +43,10 @@ class HotelApiClientTest extends TestCase
      * @var string password Password to use webBeds API
      */
     private $password;
-
+    /**
+     * @var string language language to retrieve your data
+     */
+    private $language;
 
     protected function setUp()
     {
@@ -62,20 +65,23 @@ class HotelApiClientTest extends TestCase
             "search",
             $cfgUri["timeout"],
             null);
+
+        $this->language = 'en';
     }
 
     /**
-     * API Language Method test
+     * API HotelNoteType Method test
      */
-    public function testLanguagesReq()
+    public function testHotelNoteTypesReq()
     {
-        $reqData = new \webbeds\hotel_api_sdk\helpers\GetLanguages();
+        $reqData = new \webbeds\hotel_api_sdk\helpers\GetHotelNoteTypes();
         
         $reqData->userName = $this->userName;
         $reqData->password = $this->password;
+        $reqData->language = $this->language;
         
-        $resp = $this->apiClient->GetLanguages($reqData);
-        //echo '--> testLanguagesReq:';
+        $resp = $this->apiClient->GetHotelNoteTypes($reqData);
+        //echo '--> testHotelNoteTypesReq:';
         //print_r( $resp);
         
         $this->assertNotEmpty($resp);
@@ -83,34 +89,37 @@ class HotelApiClientTest extends TestCase
     }
 
     /**
-     * Testing GetLanguagesResp results of GetLanguages method
+     * Testing GetHotelNoteTypesResp results of GetHotelNoteTypes method
      *
-     * @depends testLanguagesReq
+     * @depends testHotelNoteTypesReq
      */
-    public function testLanguageXMLResp(SimpleXMLElement $xmlResp)
+    public function testHotelNoteTypeXMLResp(SimpleXMLElement $xmlResp)
     {
         //print_r( $this->apiClient->ConvertXMLToArray($xmlResp) );
-        //print_r( $this->apiClient->ConvertXMLToNative($resp, "GetLanguages") );
+        //print_r( $this->apiClient->ConvertXMLToNative($resp, "GetHotelNoteTypes") );
         //print_r($xmlResp);
 
-        $this->assertEquals((string)$xmlResp->languages->language[0]->name, "English");
-        $native = $this->apiClient->ConvertXMLToNative($xmlResp, "GetLanguages");
+        $this->assertEquals((string)$xmlResp->noteTypes->noteType[0]->attributes()->text, "Pool closed");
+        $native = $this->apiClient->ConvertXMLToNative($xmlResp, "GetHotelNoteTypes");
 
-        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\GetLanguagesResp");
+        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\GetHotelNoteTypesResp");
         return $native;
     }
 
     /**
-     * Testing GetLanguagesResp results of GetLanguages method
+     * Testing GetHotelNoteTypesResp results of GetHotelNoteTypes method
      *
-     * @depends testLanguageXMLResp
+     * @depends testHotelNoteTypeXMLResp
      */
-    public function testLanguageResp(GetLanguagesResp $getLanguagesResp)
+    public function testHotelNoteTypeResp(GetHotelNoteTypesResp $getHotelNoteTypesResp)
     {
         // Check is response is empty or not
-        $this->assertFalse($getLanguagesResp->isEmpty(), "Response is empty!");
-        foreach ($getLanguagesResp->iterator() as $isoCode => $languageData) {
-            echo $languageData->isoCode . ', '.$languageData->name. "\r\n";
-        }
+        $this->assertFalse($getHotelNoteTypesResp->isEmpty(), "Response is empty!");
+        $this->assertEquals($getHotelNoteTypesResp->iterator()->current()->text, "Pool closed");
+
+        /*
+        foreach ($getHotelNoteTypesResp->iterator() as $id => $hotelNoteTypeData) {
+            echo $hotelNoteTypeData->id . ', '.$hotelNoteTypeData->text . "\r\n";
+        }*/
     }
 }

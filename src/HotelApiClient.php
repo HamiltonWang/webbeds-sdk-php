@@ -24,8 +24,6 @@
 
 namespace webbeds\hotel_api_sdk;
 
-use webbeds\hotel_api_sdk\messages\GetLanguagesResp;
-
 use webbeds\hotel_api_sdk\model\AuditData;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;

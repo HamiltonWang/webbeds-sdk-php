@@ -25,8 +25,8 @@
 use webbeds\hotel_api_sdk\HotelApiClient;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
-use webbeds\hotel_api_sdk\messages\GetLanguagesResp;
-use webbeds\hotel_api_sdk\model\Language;
+use webbeds\hotel_api_sdk\messages\GetFeaturesResp;
+use webbeds\hotel_api_sdk\model\Feature;
 use PHPUnit\Framework\TestCase;
 
 class HotelApiClientTest extends TestCase
@@ -43,7 +43,10 @@ class HotelApiClientTest extends TestCase
      * @var string password Password to use webBeds API
      */
     private $password;
-
+    /**
+     * @var string language language to retrieve your data
+     */
+    private $language;
 
     protected function setUp()
     {
@@ -62,20 +65,23 @@ class HotelApiClientTest extends TestCase
             "search",
             $cfgUri["timeout"],
             null);
+
+        $this->language = 'en';
     }
 
     /**
-     * API Language Method test
+     * API Feature Method test
      */
-    public function testLanguagesReq()
+    public function testFeaturesReq()
     {
-        $reqData = new \webbeds\hotel_api_sdk\helpers\GetLanguages();
+        $reqData = new \webbeds\hotel_api_sdk\helpers\GetFeatures();
         
         $reqData->userName = $this->userName;
         $reqData->password = $this->password;
+        $reqData->language = $this->language;
         
-        $resp = $this->apiClient->GetLanguages($reqData);
-        //echo '--> testLanguagesReq:';
+        $resp = $this->apiClient->GetFeatures($reqData);
+        //echo '--> testFeaturesReq:';
         //print_r( $resp);
         
         $this->assertNotEmpty($resp);
@@ -83,34 +89,37 @@ class HotelApiClientTest extends TestCase
     }
 
     /**
-     * Testing GetLanguagesResp results of GetLanguages method
+     * Testing GetFeaturesResp results of GetFeatures method
      *
-     * @depends testLanguagesReq
+     * @depends testFeaturesReq
      */
-    public function testLanguageXMLResp(SimpleXMLElement $xmlResp)
+    public function testFeatureXMLResp(SimpleXMLElement $xmlResp)
     {
         //print_r( $this->apiClient->ConvertXMLToArray($xmlResp) );
-        //print_r( $this->apiClient->ConvertXMLToNative($resp, "GetLanguages") );
+        //print_r( $this->apiClient->ConvertXMLToNative($resp, "GetFeatures") );
         //print_r($xmlResp);
 
-        $this->assertEquals((string)$xmlResp->languages->language[0]->name, "English");
-        $native = $this->apiClient->ConvertXMLToNative($xmlResp, "GetLanguages");
+        $this->assertEquals((string)$xmlResp->features->feature[0]->attributes()->name, "Air Conditioning");
+        $native = $this->apiClient->ConvertXMLToNative($xmlResp, "GetFeatures");
 
-        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\GetLanguagesResp");
+        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\GetFeaturesResp");
         return $native;
     }
 
     /**
-     * Testing GetLanguagesResp results of GetLanguages method
+     * Testing GetFeaturesResp results of GetFeatures method
      *
-     * @depends testLanguageXMLResp
+     * @depends testFeatureXMLResp
      */
-    public function testLanguageResp(GetLanguagesResp $getLanguagesResp)
+    public function testFeatureResp(GetFeaturesResp $getFeaturesResp)
     {
         // Check is response is empty or not
-        $this->assertFalse($getLanguagesResp->isEmpty(), "Response is empty!");
-        foreach ($getLanguagesResp->iterator() as $isoCode => $languageData) {
-            echo $languageData->isoCode . ', '.$languageData->name. "\r\n";
-        }
+        $this->assertFalse($getFeaturesResp->isEmpty(), "Response is empty!");
+        $this->assertEquals($getFeaturesResp->iterator()->current()->name, "Air Conditioning");
+        //print_r($getFeaturesResp->iterator()->current());
+        /*
+        foreach ($getFeaturesResp->iterator() as $id => $featureData) {
+            echo $featureData->id . ', '.$featureData->name . "\r\n";
+        }*/
     }
 }

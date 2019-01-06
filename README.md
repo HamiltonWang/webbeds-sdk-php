@@ -8,9 +8,10 @@ The structure of this library is from hotelbeds, but the api scheme and api call
 http://search.fitruums.com/1
 
 ### API url
+Search operations:
 http://search.fitruums.com/1/PostGet/NonStaticXMLAPI.asmx
 
-Booking operations
+Booking operations:
 http://book.fitruums.com/1/SOAP/Booking.asmx
 
 e.g. http://search.fitruums.com/1/PostGet/NonStaticXMLAPI.asmx?op=GetLanguages
