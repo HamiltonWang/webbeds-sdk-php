@@ -34,7 +34,7 @@ abstract class ApiResponse
      * @return mixed Field value
      * @throws FieldNotExists If field not exists
      */
-    public function __get($field)
+    public function &__get($field)
     {
         if (!array_key_exists($field, $this->responseData))
             throw new FieldNotExists("$field not exists in this data response");

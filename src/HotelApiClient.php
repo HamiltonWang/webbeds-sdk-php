@@ -177,9 +177,20 @@ class HotelApiClient
     {
         $sdkClassResp = "webbeds\\hotel_api_sdk\\messages\\".$sdkMethod."Resp";
         $array = $this->ConvertXMLToArray2($xml_string);
+        //print_r($array);
         return new $sdkClassResp($array);
     }
     
+    /**
+     * @return array ConvertSimpleXMLToNative convert XML Object to Native format
+     */
+    public function ConvertSimpleXMLToNative($xml_string, $root, $sdkMethod)
+    {
+        $sdkClassResp = "webbeds\\hotel_api_sdk\\messages\\".$sdkMethod."Resp";
+        $data = $xml_string->hotels;
+        //print_r($data);
+        return new $sdkClassResp($data);
+    }
 
     /**
      * @return array ConvertXMLToJson convert SimpleXMLElement Object to JSON format
@@ -198,10 +209,14 @@ class HotelApiClient
     {
         // sample
         //echo '--> acccessing data' .(string)$xml_string->languages->language[0]->asXml();
-        $result = $this->toArray($xml_string);
-        //print_r('--> array inside(after):' . (string)$result->languages);
+        //echo '--> array inside(before):';
+        //print_r( $xml_string);
+        $result = toArray ($xml_string);
+        //echo '--> array inside(after):';
+        //print_r($result);
         return $result;
     }
+
 
     /**
      * @return array ConvertXMLToArray2 convert XMl Object to Array format
@@ -218,7 +233,7 @@ class HotelApiClient
     private function toArray(\SimpleXMLElement $xml) {
         
         $array = (array)$xml;
-        //echo 'sss:';
+        //echo 'to array:';
         //print_r( $array);
         foreach ( array_slice($array, 0) as $key => $value ) {
             if ( $value instanceof SimpleXMLElement ) {
@@ -226,6 +241,14 @@ class HotelApiClient
             }
         }
         return $array;
+    }
+
+    function xml2array ( $xmlObject, $out = array () )
+    {
+        foreach ( (array) $xmlObject as $index => $node )
+            $out[$index] = ( is_object ( $node ) ) ? $this->xml2array ( $node ) : $node;
+
+        return $out;
     }
 
     /**

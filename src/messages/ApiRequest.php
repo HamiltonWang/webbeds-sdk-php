@@ -90,7 +90,7 @@ abstract class ApiRequest implements ApiCallTypes
             }
         }
 
-        print_r($this->request->getContent());
+        //print_r($this->request->getContent());
         return $this->request;
     }
 }

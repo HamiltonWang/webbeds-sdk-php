@@ -27,7 +27,7 @@ class Language extends ApiModel
         $this->validFields =
             ["isoCode" => "string",
              "name" => "string"];
-             
+
         if ($data !== null)
         {
             $this->fields = $data;

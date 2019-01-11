@@ -29,7 +29,7 @@ use webbeds\hotel_api_sdk\messages\GetLanguagesResp;
 use webbeds\hotel_api_sdk\model\Language;
 use PHPUnit\Framework\TestCase;
 
-class HotelApiClientTest extends TestCase
+class LanguageTest extends TestCase
 {
     /**
      * @var HotelApiClient
@@ -97,6 +97,7 @@ class HotelApiClientTest extends TestCase
         $native = $this->apiClient->ConvertXMLToNative($xmlResp, "GetLanguages");
 
         $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\GetLanguagesResp");
+      
         return $native;
     }
 
@@ -109,8 +110,9 @@ class HotelApiClientTest extends TestCase
     {
         // Check is response is empty or not
         $this->assertFalse($getLanguagesResp->isEmpty(), "Response is empty!");
+        /*
         foreach ($getLanguagesResp->iterator() as $isoCode => $languageData) {
             echo $languageData->isoCode . ', '.$languageData->name. "\r\n";
-        }
+        }*/
     }
 }
