@@ -52,13 +52,13 @@ class HotelApiClientTest extends TestCase
      */
     private $destination;
     /**
-     * @var string hotelIDs hotelIDs to specify a hotel
+     * @var string hotelIds hotelIds to specify a hotel
      */
-    private $hotelIDs;
+    private $hotelIds;
     /**
-     * @var string resortIDs resortIDs to specify a resrt
+     * @var string resortIds resortIds to specify a resrt
      */
-    private $resortIDs;
+    private $resortIds;
     /**
      * @var string accommodationTypes accommodationTypes to specify an accommodation type
      */
@@ -96,8 +96,8 @@ class HotelApiClientTest extends TestCase
 
         $this->language = 'en';
         $this->destination = '2327';
-        $this->hotelIDs = ''; //'126267';
-        $this->resortIDs ='';
+        $this->hotelIds = ''; //'126267';
+        $this->resortIds ='';
         $this->accommodationTypes ='';
         $this->sortBy = '';
         $this->sortOrder = '';
@@ -115,8 +115,8 @@ class HotelApiClientTest extends TestCase
         $reqData->password = $this->password;
         $reqData->language = $this->language;
         $reqData->destination = $this->destination;
-        $reqData->hotelIDs = $this->hotelIDs;
-        $reqData->resortIDs = $this->resortIDs;
+        $reqData->hotelIds = $this->hotelIds;
+        $reqData->resortIds = $this->resortIds;
         $reqData->accommodationTypes = $this->accommodationTypes;
         $reqData->sortBy = $this->sortBy;
         $reqData->sortOrder = $this->sortOrder;
@@ -158,7 +158,7 @@ class HotelApiClientTest extends TestCase
         $this->assertFalse($getHotelsResp->isEmpty(), "Response is empty!");
         
         foreach ($getHotelsResp->iterator() as $hotel_id => $hotelData) {
-            echo '->' . $hotelData->hotelId . ', '.$hotelData->destinationId . ', '.$hotelData->name . "\r\n";
+            echo "\r\n->" . $hotelData->hotelId . ', '.$hotelData->destinationId . ', '.$hotelData->name . "\r\n";
             echo '->' . $hotelData->latitude .  ', ' . $hotelData->longitude . "\r\n";
             foreach($hotelData->images->iterator() as $id => $imageData) {
                 echo "-->images:" . $imageData->id . ', ' . $imageData->fullSizeImageUrl . "\r\n";
@@ -170,7 +170,7 @@ class HotelApiClientTest extends TestCase
 
             foreach($hotelData->hotelRoomType->iterator() as $id => $hotelRoomTypeData) {
                 echo "-->hotelRoomType:" . $hotelRoomTypeData->id . ', ' . $hotelRoomTypeData->roomType . "\r\n";
-                
+
                 foreach($hotelRoomTypeData->rooms->iterator() as $id => $roomData) {
                     echo "--->rooms:" . $roomData->id . ', ' . $roomData->beds . "\r\n";
 

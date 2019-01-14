@@ -28,20 +28,6 @@ class Images extends ApiModel
      */
     public function iterator()
     {
-        /*
-        if ( isset($this->images['hotel'])) {
-            echo 'xx count:' . count( $this->hotels['hotel']). ' x';
-        } else {
-            echo 'xx count:0 xx' ;
-        }*/
-        
-        /*
-        echo ( isset($this->fields['image'])? "image isset:yes\r\n" : "image isset:no\r\n");
-        echo ( is_null($this->fields['image'])? "image is_null:yes\r\n" : "image is_null:no\r\n");
-        echo ( empty($this->fields['image'])? "image empty:yes\r\n" : "image empty:no\r\n");
-        */
-        //print_r($this->image);
-
         if (isset($this->fields['image']) )
         {
             // make sure there is more than one item

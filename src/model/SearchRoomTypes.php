@@ -7,16 +7,16 @@
  */
 namespace webbeds\hotel_api_sdk\model;
 /**
- * Class GetHotelRoomTypes
+ * Class SearchRoomTypes
  * @package webbeds\hotel_api_sdk\model
- * @property integer total Total number of GetHotelRoomTypes
+ * @property integer total Total number of SearchRoomTypes
  */
-class GetHotelRoomTypes extends ApiModel
+class SearchRoomTypes extends ApiModel
 {
     public function __construct(array $data = null)
     {
         $this->validFields = [
-            "roomtype" => "array",
+            "roomtype" => "array"
         ];
 
         if ($data !== null) {
@@ -24,7 +24,7 @@ class GetHotelRoomTypes extends ApiModel
         }
     }
     /**
-     * @return GetHotelRoomtypeIterator For iterate GetHotelRoomtypes list
+     * @return SearchRoomtypeIterator For iterate SearchRoomtypes list
      */
     public function iterator()
     {
@@ -32,16 +32,16 @@ class GetHotelRoomTypes extends ApiModel
         {
             // make sure there is more than one item
             if (array_key_exists("0", $this->fields['roomtype'])) {
-                return new GetHotelRoomTypeIterator($this->fields['roomtype']);
+                return new SearchRoomTypeIterator($this->fields['roomtype']);
             } else {
                 $item = $this->fields['roomtype'];
                 $this->fields['roomtype'] = [];
                 array_push($this->fields['roomtype'], $item);
-                return new GetHotelRoomtypeIterator($this->fields['roomtype']);
+                return new SearchRoomtypeIterator($this->fields['roomtype']);
             }
             
         }
             
-        return new GetHotelRoomtypeIterator([]);
+        return new SearchRoomtypeIterator([]);
     }
 }

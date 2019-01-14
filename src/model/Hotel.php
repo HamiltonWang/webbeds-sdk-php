@@ -43,6 +43,7 @@ class Hotel extends ApiModel
                 "hotelMapUrl" => "string",
                 "headline" => "string",
                 "description" => "string",
+                "resort" => "string",
                 "images" => "array",
                 "hotelRoomType" => "array",
                 "features" => "array",
@@ -60,12 +61,5 @@ class Hotel extends ApiModel
             {
                 $this->fields = $data;
             }
-
-            /*
-            parent::__construct($data);
-            if (array_key_exists("images", $data)) {
-                $hotelsObject = new Images($this->images);
-                $this->hotels = $hotelsObject;
-            }*/
     }
 }

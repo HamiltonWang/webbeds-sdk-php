@@ -30,13 +30,11 @@ class HotelIterator implements \Iterator
         $data['notes'] = gettype($data['notes'])=="array" ? null : $data['notes'];
         $data['codes'] = $this->hotels[$this->position]['codes'];
         $data['codes'] = gettype($data['codes'])=="array" ? null : $data['codes'];
-        $data['type'] = (string)$this->hotels[$this->position]['type'];
+        $data['type'] = $this->hotels[$this->position]['type'];
         $data['name'] = $this->hotels[$this->position]['name'];
 
-        $data['hotelAddr1'] = $this->hotels[$this->position]{'hotel.addr.1'};
-        $data['hotelAddr1'] = gettype($data['hotelAddr1'])=="array" ? null : $data['hotelAddr1'];
-        $data['hotelAddr2'] = $this->hotels[$this->position]{'hotel.addr.2'};
-        $data['hotelAddr2'] = gettype($data['hotelAddr2'])=="array" ? null : $data['hotelAddr2'];
+        $data['hotelAddr1'] = isset($this->hotels[$this->position]{'hotel.addr.1'}) ? $this->hotels[$this->position]{'hotel.addr.1'} : '';
+        $data['hotelAddr2'] = isset($this->hotels[$this->position]{'hotel.addr.2'}) ? $this->hotels[$this->position]{'hotel.addr.2'} : '';
         $data['hotelAddrZip'] = $this->hotels[$this->position]{'hotel.addr.zip'};
         $data['hotelAddrZip'] = gettype($data['hotelAddrZip'])=="array" ? null : $data['hotelAddrZip'];
         $data['hotelAddrCity'] = $this->hotels[$this->position]{'hotel.addr.city'};
@@ -55,6 +53,7 @@ class HotelIterator implements \Iterator
         $data['headline'] = gettype($data['headline'])=="array" ? null : $data['headline'];
         $data['description'] = $this->hotels[$this->position]['description'];
         $data['description'] = gettype($data['description'])=="array" ? null : $data['description'];
+        $data['resort'] = isset($this->hotels[$this->position]['resort']) ? isset($this->hotels[$this->position]['resort']): '';
         // theme skipped
         // images
         $data['images'] = new Images($this->hotels[$this->position]['images']);

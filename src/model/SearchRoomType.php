@@ -10,33 +10,30 @@ namespace webbeds\hotel_api_sdk\model;
 use webbeds\hotel_api_sdk\model\ApiModel;
 
 /**
- * Class GetHotelRoomTypes
+ * Class SearchRoomType
  * @package webbeds\hotel_api_sdk\model
  * @property string userName User Name to use webBeds API
  * @property string password Password to use webBeds API
  */
-class GetHotelRoomType extends ApiModel
+class SearchRoomType extends ApiModel
 {
     /**
-     * GetHotelRoomTypes constructor.
+     * SearchRoomTypes constructor.
      * @property string userName User Name to use webBeds API
      * @property string password Password to use webBeds API
      */
     public function __construct(array $data=null)
     {
         $this->validFields =
-            [   "id" => "string",
-                "dataType" => "string",
-                "rooms" => "array",
-                "roomType" => "string",
-                "sharedRoom" => "string",
-                "sharedFacilities" => "string"
+            [
+                "roomtypeId" => "string",
+                "rooms" => "array"
             ];
-             
+
             if ($data !== null)
             {
                 $this->fields['id'] = $data{'roomtype.ID'};
-                $this->fields['rooms'] = empty($data['rooms']) ? new Rooms([]): new Rooms($data['rooms']);
+                $this->fields['rooms'] = empty($data['rooms']) ? new SearchRooms([]): new SearchRooms($data['rooms']);
             }
     }
 }
