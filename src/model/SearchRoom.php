@@ -29,7 +29,7 @@ class SearchRoom extends ApiModel
                 "beds" => "string",
                 "extrabeds" => "integer",
                 "meals" => "string",
-                "cancellation_policies" => "string",
+                "cancellationPolicies" => "array",
                 "notes" => "string",
                 "isSuperDeal" => "boolean",
                 "isBestBuy" => "boolean",
@@ -42,9 +42,9 @@ class SearchRoom extends ApiModel
                 $this->fields['beds'] = empty($data['beds']) ? '': $data['beds'];
                 $this->fields['extrabeds'] = empty($data['extrabeds']) ? '': $data['extrabeds'];
                 // TODO: meals array: no sample data, seems not in use
-                $this->fields['meals'] = empty($data['meals']) ? []: $data['meals'];
+                $this->fields['meals'] = empty($data['meals']) ? new SearchMeals([]): new SearchMeals($data['meals']);
                 // TODO: cancellation_policies array: no sample data
-                $this->fields['cancellation_policies'] = empty($data['cancellation_policies']) ? []: $data['cancellation_policies'];
+                $this->fields['cancellationPolicies'] = empty($data['cancellation_policies']) ? new CancellationPolicies([]): new CancellationPolicies($data['cancellation_policies']);
                 // TODO: note array: no sample data, seems not in use
                 $this->fields['notes'] = empty($data['notes']) ? []: $data['notes'];
                 // TODO: paymentMethods array: need more sample for multiple payment metods

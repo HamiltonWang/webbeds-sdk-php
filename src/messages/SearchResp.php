@@ -37,7 +37,6 @@ class SearchResp extends ApiResponse
     public function __construct(array $rsData)
     {
         parent::__construct($rsData);
-       
         if (array_key_exists("hotels", $rsData)) {
             $this->hotels = $rsData['hotels']['hotel'];
         }

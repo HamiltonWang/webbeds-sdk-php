@@ -10,15 +10,15 @@ namespace webbeds\hotel_api_sdk\model;
 use webbeds\hotel_api_sdk\model\ApiModel;
 
 /**
- * Class SearchHotels
+ * Class SearchPrice
  * @package webbeds\hotel_api_sdk\model
  * @property string userName User Name to use webBeds API
  * @property string password Password to use webBeds API
  */
-class SearchHotel extends ApiModel
+class SearchPrice extends ApiModel
 {
     /**
-     * SearchHotels constructor.
+     * SearchPrices constructor.
      * @property string userName User Name to use webBeds API
      * @property string password Password to use webBeds API
      */
@@ -26,19 +26,16 @@ class SearchHotel extends ApiModel
     {
         $this->validFields =
             [
-                "hotelId" => "string",
-                "destinationId" => "string",
-                "resortId" => "string",
-                "transfer" => "string",
-                "roomTypes" => "array",
-                "notes" => "string",
-                "distance" => "string",
-                "codes" => "string"
+                "price" => "string",
+                "currency" => "string",
+                "paymentMethods" => "integer"
             ];
 
-        if ($data !== null)
-        {
-            $this->fields = $data;
-        }
+            if ($data !== null)
+            {
+                $this->fields['price'] = $data['price'];
+                $this->fields['currency'] = $data{'currency'};
+                $this->fields['paymentMethods'] = $data{'paymentMethods'};
+            }
     }
 }

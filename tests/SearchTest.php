@@ -187,9 +187,9 @@ class HotelApiClientTest extends TestCase
     protected function setUp()
     {
         $reader = new Zend\Config\Reader\Ini();
-        $commonConfig   = $reader->fromFile(__DIR__ . '\config\Common.ini');
+        $commonConfig   = $reader->fromFile(__DIR__ . '/config/Common.ini');
         $currentEnvironment = $commonConfig["environment"]? $commonConfig["environment"]: "DEFAULT";
-        $environmentConfig   = $reader->fromFile(__DIR__ . '\config\Environment.' . strtoupper($currentEnvironment) . '.ini');
+        $environmentConfig   = $reader->fromFile(__DIR__ . '/config/Environment.' . strtoupper($currentEnvironment) . '.ini');
         $cfgUri = $commonConfig["url"];
         $cfgApi = $environmentConfig["apiclient"];
         $this->userName = $cfgApi["userName"];
@@ -237,7 +237,7 @@ class HotelApiClientTest extends TestCase
         $this->excludeSharedFacilities = '';
         $this->prioritizedHotelIds = '';
         $this->totalRoomsInBatch = '';
-        $this->paymentMethodId ='';
+        $this->paymentMethodId ='1';
         $this->customerCountry = 'tw';
         $this->b2c = false;
     }
@@ -290,7 +290,6 @@ class HotelApiClientTest extends TestCase
         $reqData->b2c = $this->b2c;
 
         $resp = $this->apiClient->Search($reqData);
-        print_r($resp);
 
         $this->assertNotEmpty($resp);
         return $resp;
@@ -325,16 +324,29 @@ class HotelApiClientTest extends TestCase
         $this->assertFalse($searchResp->isEmpty(), "Response is empty!");
         
         foreach ($searchResp->iterator() as $hotelId => $hotelData) {
-            echo "\r\n-> $hotelData->hotelId , $hotelData->destinationId  \r\n";
+            echo "\r\n ->hotel: $hotelData->hotelId , $hotelData->destinationId  \r\n";
 
             foreach($hotelData->roomTypes->iterator() as $id => $hotelRoomTypeData) {
-                echo "-->hotelRoomType: $hotelRoomTypeData->roomTypeId \r\n";
+                echo "-->hotelRoomType:: $hotelRoomTypeData->roomTypeId \r\n";
                 
                 foreach($hotelRoomTypeData->rooms->iterator() as $id => $roomData) {
-                    echo "--->rooms:" . $roomData->id . ', ' . $roomData->beds . "\r\n";
+                    echo "--->rooms:: id: $roomData->id , beds: $roomData->beds \r\n";
+
+                    foreach($roomData->meals->iterator() as $id => $mealData) {
+                        echo "---->meals:: id: $mealData->id  \r\n";
+                        echo "----->price:: price: $mealData->price  \r\n";
+
+                        //foreach($mealData->prices->iterator() as $id => $priceData) {
+                        //    echo "----->prices:: price: $priceData->price  $priceData->currency (paymentMethods: $mealData->paymentMethods) \r\n";
+                        //}
+                    }
+
+                    foreach($roomData->cancellationPolicies->iterator() as $id => $cxlPolicyData) {
+                        echo "---->cxlPolicy:: deadline: $cxlPolicyData->deadline, percentage: $cxlPolicyData->percentage \r\n";
+                    }
 
                     foreach($roomData->paymentMethods->iterator() as $id => $paymentMethodData) {
-                        echo "---->paymentMethods:" . $paymentMethodData->id . ', ' . $paymentMethodData->name . "\r\n";
+                        echo "---->paymentMethods:: id: $paymentMethodData->id \r\n";
                     }
                 }
             }

@@ -17,10 +17,9 @@ class SearchHotelIterator implements \Iterator
     }
     public function current()
     {
-        print_r($this->hotels);
         $data = [];
         $data['hotelId'] = $this->hotels[$this->position]{'hotel.id'};
-        $data['destinationId'] = $this->hotels[$this->position]{'destination_id'};
+        $data['destinationId'] = $this->hotels[$this->position]['destination_id'];
         $data['resortId'] = $this->hotels[$this->position]['resort_id'];
         $data['transfer'] = $this->hotels[$this->position]['transfer'];
         $data['roomTypes'] = new SearchRoomTypes($this->hotels[$this->position]['roomtypes']);
@@ -28,7 +27,7 @@ class SearchHotelIterator implements \Iterator
         $data['distance '] = empty($this->hotels[$this->position]['distance']) ? $this->hotels[$this->position]['distance'] : '';
         $data['codes'] = empty($this->hotels[$this->position]['codes']) ? $this->hotels[$this->position]['codes'] : '';
 
-        return new SearchHotel($this->hotels[$this->position]);
+        return new SearchHotel($data);
     }
     public function next()
     {

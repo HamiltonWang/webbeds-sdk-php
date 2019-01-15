@@ -16,7 +16,7 @@ class SearchRooms extends ApiModel
     public function __construct(array $data = null)
     {
         $this->validFields = [
-            "searchRoom" => "array",
+            "room" => "array",
         ];
 
         if ($data !== null) {
