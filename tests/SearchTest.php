@@ -330,7 +330,7 @@ class HotelApiClientTest extends TestCase
                 echo "-->hotelRoomType:: $hotelRoomTypeData->roomTypeId \r\n";
                 
                 foreach($hotelRoomTypeData->rooms->iterator() as $id => $roomData) {
-                    echo "--->rooms:: id: $roomData->id , beds: $roomData->beds \r\n";
+                    echo "--->roomType:: id: $roomData->id , beds: $roomData->beds \r\n";
 
                     foreach($roomData->meals->iterator() as $id => $mealData) {
                         echo "---->meals:: id: $mealData->id  \r\n";

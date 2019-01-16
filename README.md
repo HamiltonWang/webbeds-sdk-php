@@ -12,7 +12,7 @@ Search operations:
 http://search.fitruums.com/1/PostGet/NonStaticXMLAPI.asmx
 
 Booking operations:
-http://book.fitruums.com/1/SOAP/Booking.asmx
+http://book.fitruums.com/1/PostGet/Booking.asmx
 
 e.g. http://search.fitruums.com/1/PostGet/NonStaticXMLAPI.asmx?op=GetLanguages
 

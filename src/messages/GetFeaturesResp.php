@@ -39,8 +39,6 @@ class GetFeaturesResp extends ApiResponse
     {
         parent::__construct($rsData);
         if (array_key_exists("features", $rsData)) {
-            //$featuresObject = new Features($this->features);
-            //$this->features = $featuresObject;
             $this->features = $rsData['features']['feature'];
         }
     }

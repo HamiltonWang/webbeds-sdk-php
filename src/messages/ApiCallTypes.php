@@ -24,6 +24,8 @@ interface ApiCallTypes
     const GET_ROOM_TYPES = "GetRoomTypes";
     const GET_ROOM_NOTE_TYPES = "GetRoomNoteTypes";
     const GET_THEMES = "GetThemes";
+
+    const PREBOOKV2 = "PreBookV2";
     
     
     

@@ -38,7 +38,8 @@ class ApiUri extends Http
         if ($lib == 'search') {
             //NonStaticXMLAPI.asmx
             $libPath = 'NonStaticXMLAPI.asmx';
-        } else {
+        } 
+        if ($lib == 'book') {
             // Booking.asmx
             $libPath = 'Booking.asmx';
         }
