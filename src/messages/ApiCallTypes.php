@@ -12,6 +12,7 @@ namespace webbeds\hotel_api_sdk\messages;
 interface ApiCallTypes
 {
     const SEARCH = "Search";
+    
     const SEARCH_TRANSFER = "SearchTransfers";
     const GET_TRANSFER_TYPES = "GetTransferTypes";
     const GET_DESTINATION = "GetDestinations";
@@ -26,8 +27,11 @@ interface ApiCallTypes
     const GET_THEMES = "GetThemes";
 
     const PREBOOKV2 = "PreBookV2";
-    
-    
-    
-    
+    const BOOK = "Book";
+    const CANCELBOOKING = "CancelBooking";
+    const GETBOOKINGINFORMATION = "GetBookingInformation";
+    const GETSPECIALREQUEST ="GetSpecialRequest";
+    const UPDATESPECIALREQUEST = "UpdateSpecialRequest";
+
+    const ADDTRANSFER = "AddTransfer";
 }

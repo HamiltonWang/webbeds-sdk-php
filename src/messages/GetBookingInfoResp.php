@@ -22,44 +22,39 @@
  */
 namespace webbeds\hotel_api_sdk\messages;
 
-use webbeds\hotel_api_sdk\model\PriceBreakdowns;
-use webbeds\hotel_api_sdk\model\CancellationPolicies;
+use webbeds\hotel_api_sdk\model\BookHotelIterator;
 
 /**
- * Class PreBookV2Resp
+ * Class BookResp
  * @package webbeds\hotel_api_sdk\messages
- * @property PreBookV2 search used for hotel content
+ * @property Book book used for hotel content
  */
-class PreBookV2Resp extends ApiResponse
+class BookResp extends ApiResponse
 {
     /**
-     * @param array $rsData Array of data response for search
+     * @param array $rsData Array of data response for book
      */
     public function __construct(array $rsData)
     {
         parent::__construct($rsData);
-
-        //if (array_key_exists("PreBookCode", $rsData)) {
-        if (!isset($this->Error)){
-            $this->preBookCode = $this->PreBookCode;
-            $this->price =  $this->Price;
-            $this->currency =  $this->PriceBreakdown{'@attributes'}['currency'];
-            $this->from =  $this->PriceBreakdown{'@attributes'}['from'];
-            $this->to =  $this->PriceBreakdown{'@attributes'}['to'];
-            $this->total =  $this->PriceBreakdown{'@attributes'}['total'];
-            $this->priceBreakdowns = new PriceBreakdowns($this->PriceBreakdown);
-            $this->cancellationPolicies = new CancellationPolicies($this->CancellationPolicies);
-            $this->error = NULL;
-        } else {
-            $this->error = isset($this->Error['Message']) ? $this->Error['Message']: NULL;
+        if (array_key_exists("hotels", $rsData)) {
+            $this->hotels = $rsData['hotels']['hotel'];
         }
     }
     /**
      * @return bool Returns True when response language list is empty. False otherwise.
      */
-    public function isError()
+    public function isEmpty()
     {
-        return (!is_null($this->error));
+        return (count( $this->hotels)=== 0);
+    }
+
+    public function iterator()
+    {
+        if ($this->hotels !== null)
+            
+            return new BookHotelIterator($this->hotels);
+        return new BookHotelIterator([]);
     }
 
     /**

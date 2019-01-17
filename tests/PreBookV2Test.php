@@ -138,7 +138,7 @@ class HotelApiClientTest extends TestCase
         $this->currency = 'TWD';        
         $this->checkInDate ='2019-03-01';
         $this->checkOutDate ='2019-03-03';
-        $this->roomId = '29119534';
+        $this->roomId = '29012319';
         $this->rooms = 1;
         $this->adults = 2;
         $this->children = 0;
@@ -147,7 +147,7 @@ class HotelApiClientTest extends TestCase
         $this->mealId = 1;
         $this->customerCountry = 'tw';
         $this->b2c = false;
-        $this->searchPrice ='121849';
+        $this->searchPrice ='56982';
 
         $this->hotelId = ''; //'126267';
         $this->roomtypeId ='';
@@ -215,13 +215,19 @@ class HotelApiClientTest extends TestCase
         //print_r($preBookV2Resp);
         $this->assertFalse($preBookV2Resp->isError(), "Response has error! $preBookV2Resp->error");
         
-        echo "\r\n ->preBookCode: $preBookV2Resp->preBookCode, price: $preBookV2Resp->price $preBookV2Resp->currency \r\n";
+        echo "\r\n\r\n ===== This information can be used for testing Book Api: ======";
+        echo "CheckIn/Out Date: $this->checkInDate~$this->checkOutDate RoomId:$this->roomId, Rooms:$this->rooms  \r\n ";
+        echo "adults:$this->adults, children:$this->children, childrenAges:$this->childrenAges, infant:$this->infant \r\n";
+        echo "mealId:$this->mealId, customerCountry:$this->customerCountry, b2c:" . ($this->b2c ? 1:0) .", searchPrice:$this->searchPrice \r\n";
+        echo "Response Output:";
+        echo "->preBookCode: $preBookV2Resp->preBookCode, price: $preBookV2Resp->price $preBookV2Resp->currency \r\n";
         $priceBreakdown = $preBookV2Resp->priceBreakdowns;
 
         $this->assertNotEmpty($priceBreakdown);
         foreach ($priceBreakdown->iterator() as $Id => $priceBreakdownData) {
             echo "-->priceBreakdown: totalPrice:$priceBreakdownData->totalPrice , type:$priceBreakdownData->type  price:$priceBreakdownData->price  breakdown:$priceBreakdownData->breakdown  \r\n";
         }
-        
+        echo "=================================================================";
+
     }
 }
