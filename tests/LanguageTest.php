@@ -114,9 +114,9 @@ class LanguageTest extends TestCase
     {
         // Check is response is empty or not
         $this->assertFalse($getLanguagesResp->isEmpty(), "Response is empty!");
-        /*
+        
         foreach ($getLanguagesResp->iterator() as $isoCode => $languageData) {
             echo $languageData->isoCode . ', '.$languageData->name.PHP_EOL;
-        }*/
+        }
     }
 }
