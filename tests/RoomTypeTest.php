@@ -25,7 +25,7 @@
 use webbeds\hotel_api_sdk\HotelApiClient;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
-use webbeds\hotel_api_sdk\messages\GetRoomTypesResp;
+use webbeds\hotel_api_sdk\messages\search\GetRoomTypesResp;
 use webbeds\hotel_api_sdk\model\RoomType;
 use PHPUnit\Framework\TestCase;
 
@@ -51,9 +51,9 @@ class HotelApiClientTest extends TestCase
     protected function setUp()
     {
         $reader = new Zend\Config\Reader\Ini();
-        $commonConfig   = $reader->fromFile(__DIR__ . '\config\Common.ini');
+        $commonConfig   = $reader->fromFile(__DIR__ . '/config/Common.ini');
         $currentEnvironment = $commonConfig["environment"]? $commonConfig["environment"]: "DEFAULT";
-        $environmentConfig   = $reader->fromFile(__DIR__ . '\config\Environment.' . strtoupper($currentEnvironment) . '.ini');
+        $environmentConfig   = $reader->fromFile(__DIR__ . '/config/Environment.' . strtoupper($currentEnvironment) . '.ini');
         $cfgUri = $commonConfig["url"];
         $cfgApi = $environmentConfig["apiclient"];
         $this->userName = $cfgApi["userName"];
@@ -74,7 +74,7 @@ class HotelApiClientTest extends TestCase
      */
     public function testRoomTypesReq()
     {
-        $reqData = new \webbeds\hotel_api_sdk\helpers\GetRoomTypes();
+        $reqData = new \webbeds\hotel_api_sdk\helpers\search\GetRoomTypes();
         
         $reqData->userName = $this->userName;
         $reqData->password = $this->password;
@@ -102,7 +102,7 @@ class HotelApiClientTest extends TestCase
         $this->assertEquals((string)$xmlResp->roomTypes->roomType[0]->name, "Single room");
         $native = $this->apiClient->ConvertXMLToNative($xmlResp, "GetRoomTypes");
 
-        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\GetRoomTypesResp");
+        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\search\GetRoomTypesResp");
         return $native;
     }
 
@@ -118,7 +118,7 @@ class HotelApiClientTest extends TestCase
         $this->assertEquals($getRoomTypesResp->iterator()->current()->name, "Single room");
         /*
         foreach ($getRoomTypesResp->iterator() as $id => $roomTypeData) {
-            echo $roomTypeData->id . ', '.$roomTypeData->name . ', '.$roomTypeData->sharedRoom . ', ' .$roomTypeData->sharedFacilities . "\r\n";
+            echo $roomTypeData->id . ', '.$roomTypeData->name . ', '.$roomTypeData->sharedRoom . ', ' .$roomTypeData->sharedFacilities . "".PHP_EOL;
         }*/
     }
 }

@@ -5,9 +5,10 @@
  * Date: 11/4/2015
  * Time: 8:43 PM
  */
-namespace webbeds\hotel_api_sdk\model;
+namespace webbeds\hotel_api_sdk\model\search;
 
 use webbeds\hotel_api_sdk\model\ApiModel;
+use webbeds\hotel_api_sdk\model\common\CancellationPolicies;
 
 /**
  * Class SearchRooms

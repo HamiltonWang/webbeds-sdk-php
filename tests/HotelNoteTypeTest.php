@@ -25,7 +25,7 @@
 use webbeds\hotel_api_sdk\HotelApiClient;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
-use webbeds\hotel_api_sdk\messages\GetHotelNoteTypesResp;
+use webbeds\hotel_api_sdk\messages\search\GetHotelNoteTypesResp;
 use webbeds\hotel_api_sdk\model\HotelNoteType;
 use PHPUnit\Framework\TestCase;
 
@@ -47,22 +47,27 @@ class HotelApiClientTest extends TestCase
      * @var string language language to retrieve your data
      */
     private $language;
+    /**
+     * @var string lib search api or book api
+     */
+    private $lib;  
 
     protected function setUp()
     {
+        $this->lib = 'search';
         $reader = new Zend\Config\Reader\Ini();
-        $commonConfig   = $reader->fromFile(__DIR__ . '\config\Common.ini');
+        $commonConfig   = $reader->fromFile(__DIR__ . '/config/Common.ini');
         $currentEnvironment = $commonConfig["environment"]? $commonConfig["environment"]: "DEFAULT";
-        $environmentConfig   = $reader->fromFile(__DIR__ . '\config\Environment.' . strtoupper($currentEnvironment) . '.ini');
+        $environmentConfig   = $reader->fromFile(__DIR__ . '/config/Environment.' . strtoupper($currentEnvironment) . '.ini');
         $cfgUri = $commonConfig["url"];
         $cfgApi = $environmentConfig["apiclient"];
         $this->userName = $cfgApi["userName"];
         $this->password = $cfgApi["password"];
-        $this->apiClient = new HotelApiClient($cfgUri["search"],
+        $this->apiClient = new HotelApiClient($cfgUri[$this->lib],
             $cfgApi["userName"],
             $cfgApi["password"],
             new ApiVersion(ApiVersions::V1_0),
-            "search",
+            $this->lib,
             $cfgUri["timeout"],
             null);
 
@@ -74,7 +79,7 @@ class HotelApiClientTest extends TestCase
      */
     public function testHotelNoteTypesReq()
     {
-        $reqData = new \webbeds\hotel_api_sdk\helpers\GetHotelNoteTypes();
+        $reqData = new \webbeds\hotel_api_sdk\helpers\search\GetHotelNoteTypes();
         
         $reqData->userName = $this->userName;
         $reqData->password = $this->password;
@@ -102,7 +107,7 @@ class HotelApiClientTest extends TestCase
         $this->assertEquals((string)$xmlResp->noteTypes->noteType[0]->attributes()->text, "Pool closed");
         $native = $this->apiClient->ConvertXMLToNative($xmlResp, "GetHotelNoteTypes");
 
-        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\GetHotelNoteTypesResp");
+        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\search\GetHotelNoteTypesResp");
         return $native;
     }
 
@@ -119,7 +124,7 @@ class HotelApiClientTest extends TestCase
 
         /*
         foreach ($getHotelNoteTypesResp->iterator() as $id => $hotelNoteTypeData) {
-            echo $hotelNoteTypeData->id . ', '.$hotelNoteTypeData->text . "\r\n";
+            echo $hotelNoteTypeData->id . ', '.$hotelNoteTypeData->text . "".PHP_EOL;
         }*/
     }
 }

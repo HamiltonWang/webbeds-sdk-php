@@ -28,7 +28,7 @@ use webbeds\hotel_api_sdk\model\AuditData;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
 use webbeds\hotel_api_sdk\types\HotelSDKException;
-use webbeds\hotel_api_sdk\messages\ApiRequest;
+use webbeds\hotel_api_sdk\messages\baseClass\ApiRequest;
 
 use Zend\Http\Client;
 use Zend\Http\Request;
@@ -69,7 +69,7 @@ class HotelApiClient
      */
     private $lastSdkMethod;
     /**
-     * @var string lib used search or booking
+     * @var string lib used search or book
      */
     private $lib;
 
@@ -113,10 +113,10 @@ class HotelApiClient
     public function __call($sdkMethod, array $args=null)
     {
         $this->lastSdkMethod = $sdkMethod;
-        $sdkClassReq = "webbeds\\hotel_api_sdk\\messages\\".$sdkMethod."Req";
-        $sdkClassResp = "webbeds\\hotel_api_sdk\\messages\\".$sdkMethod."Resp";
+        $sdkClassReq = "webbeds\\hotel_api_sdk\\messages\\".$this->lib."\\".$sdkMethod."Req";
+        $sdkClassResp = "webbeds\\hotel_api_sdk\\messages\\".$this->lib."\\".$sdkMethod."Resp";
         if (!class_exists($sdkClassReq) && !class_exists($sdkClassResp)){
-            throw new HotelSDKException("$sdkClassReq or $sdkClassResp not implemented in SDK");
+            throw new HotelSDKException("$this->lib\\$sdkClassReq or $this->lib\\$sdkClassResp not implemented in SDK");
         }
         //if($sdkClassReq == "webbeds\\hotel_api_sdk\\messages\\BookingConfirmReq"){
         //	$req = new $sdkClassReq($this->apiUri, $args[0]);
@@ -175,7 +175,8 @@ class HotelApiClient
      */
     public function ConvertXMLToNative($xml_string, $sdkMethod)
     {
-        $sdkClassResp = "webbeds\\hotel_api_sdk\\messages\\".$sdkMethod."Resp";
+        $sdkClassResp = "webbeds\\hotel_api_sdk\\messages\\".$this->lib."\\".$sdkMethod."Resp";
+        //print_r($xml_string);
         $array = $this->ConvertXMLToArray2($xml_string);
         //print_r($array);
         return new $sdkClassResp($array);
@@ -186,7 +187,7 @@ class HotelApiClient
      */
     public function ConvertSimpleXMLToNative($xml_string, $root, $sdkMethod)
     {
-        $sdkClassResp = "webbeds\\hotel_api_sdk\\messages\\".$sdkMethod."Resp";
+        $sdkClassResp = "webbeds\\hotel_api_sdk\\messages\\".$this->lib."\\".$sdkMethod."Resp";
         $data = $xml_string->hotels;
         //print_r($data);
         return new $sdkClassResp($data);
@@ -223,6 +224,7 @@ class HotelApiClient
      */
     public function ConvertXMLToArray2($xml_string)
     {
+
         $json = json_encode( $xml_string );
         $array = json_decode($json, TRUE);
         //echo $xml_string;

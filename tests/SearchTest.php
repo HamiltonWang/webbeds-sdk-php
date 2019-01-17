@@ -25,7 +25,7 @@
 use webbeds\hotel_api_sdk\HotelApiClient;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
-use webbeds\hotel_api_sdk\messages\SearchResp;
+use webbeds\hotel_api_sdk\messages\search\SearchResp;
 use webbeds\hotel_api_sdk\model\Search;
 use PHPUnit\Framework\TestCase;
 
@@ -247,7 +247,7 @@ class HotelApiClientTest extends TestCase
      */
     public function testHotelsReq()
     {
-        $reqData = new \webbeds\hotel_api_sdk\helpers\Search();
+        $reqData = new \webbeds\hotel_api_sdk\helpers\search\Search();
         
         $reqData->userName = $this->userName;
         $reqData->password = $this->password;
@@ -309,7 +309,7 @@ class HotelApiClientTest extends TestCase
         //$this->assertEquals((string)$xmlResp->hotels->hotel[0]->name, "6 Wilkes Barre Motel");
         $native = $this->apiClient->ConvertXMLToNative($xmlResp, "Search");
 
-        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\SearchResp");
+        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\search\SearchResp");
         return $native;
     }
 
@@ -323,31 +323,31 @@ class HotelApiClientTest extends TestCase
         // Check is response is empty or not
         $this->assertFalse($searchResp->isEmpty(), "Response is empty!");
         
-        echo "Checkin Date: $this->checkInDate ~ $this->checkOutDate \r\n";
+        echo "Checkin Date: $this->checkInDate ~ $this->checkOutDate ".PHP_EOL;
         foreach ($searchResp->iterator() as $hotelId => $hotelData) {
-            echo "\r\n ->hotel: $hotelData->hotelId , $hotelData->destinationId  \r\n";
+            echo "\r\n ->hotel: $hotelData->hotelId , $hotelData->destinationId  ".PHP_EOL;
 
             foreach($hotelData->roomTypes->iterator() as $id => $hotelRoomTypeData) {
-                echo "-->hotelRoomType:: $hotelRoomTypeData->roomTypeId \r\n";
+                echo "-->hotelRoomType:: $hotelRoomTypeData->roomTypeId ".PHP_EOL;
                 
                 foreach($hotelRoomTypeData->rooms->iterator() as $id => $roomData) {
-                    echo "--->roomType:: id: $roomData->id , beds: $roomData->beds \r\n";
+                    echo "--->roomType:: id: $roomData->id , beds: $roomData->beds ".PHP_EOL;
 
                     foreach($roomData->meals->iterator() as $id => $mealData) {
-                        echo "---->meals:: id: $mealData->id  \r\n";
-                        echo "----->price:: price: $mealData->price  \r\n";
+                        echo "---->meals:: id: $mealData->id  ".PHP_EOL;
+                        echo "----->price:: price: $mealData->price,  discount: $mealData->discount ".PHP_EOL;
 
                         //foreach($mealData->prices->iterator() as $id => $priceData) {
-                        //    echo "----->prices:: price: $priceData->price  $priceData->currency (paymentMethods: $mealData->paymentMethods) \r\n";
+                        //    echo "----->prices:: price: $priceData->price  $priceData->currency (paymentMethods: $mealData->paymentMethods) ".PHP_EOL;
                         //}
                     }
 
                     foreach($roomData->cancellationPolicies->iterator() as $id => $cxlPolicyData) {
-                        echo "---->cxlPolicy:: deadline: $cxlPolicyData->deadline, percentage: $cxlPolicyData->percentage \r\n";
+                        echo "---->cxlPolicy:: deadline: $cxlPolicyData->deadline, percentage: $cxlPolicyData->percentage ".PHP_EOL;
                     }
 
                     foreach($roomData->paymentMethods->iterator() as $id => $paymentMethodData) {
-                        echo "---->paymentMethods:: id: $paymentMethodData->id \r\n";
+                        echo "---->paymentMethods:: id: $paymentMethodData->id ".PHP_EOL;
                     }
                 }
             }

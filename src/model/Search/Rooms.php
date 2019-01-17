@@ -5,7 +5,10 @@
  * Date: 11/12/2015
  * Time: 1:33 AM
  */
-namespace webbeds\hotel_api_sdk\model;
+namespace webbeds\hotel_api_sdk\model\search;
+
+use webbeds\hotel_api_sdk\model\ApiModel;
+
 /**
  * Class Rooms
  * @package webbeds\hotel_api_sdk\model

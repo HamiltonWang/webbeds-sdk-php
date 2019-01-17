@@ -25,7 +25,7 @@
 use webbeds\hotel_api_sdk\HotelApiClient;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
-use webbeds\hotel_api_sdk\messages\GetLanguagesResp;
+use webbeds\hotel_api_sdk\messages\search\GetLanguagesResp;
 use webbeds\hotel_api_sdk\model\Language;
 use PHPUnit\Framework\TestCase;
 
@@ -43,10 +43,14 @@ class LanguageTest extends TestCase
      * @var string password Password to use webBeds API
      */
     private $password;
-
+    /**
+     * @var string lib search api or book api
+     */
+    private $lib; 
 
     protected function setUp()
     {
+        $this->lib = 'search';
         $reader = new Zend\Config\Reader\Ini();
         $commonConfig   = $reader->fromFile(__DIR__ . '/config/Common.ini');
         $currentEnvironment = $commonConfig["environment"]? $commonConfig["environment"]: "DEFAULT";
@@ -55,11 +59,11 @@ class LanguageTest extends TestCase
         $cfgApi = $environmentConfig["apiclient"];
         $this->userName = $cfgApi["userName"];
         $this->password = $cfgApi["password"];
-        $this->apiClient = new HotelApiClient($cfgUri["search"],
+        $this->apiClient = new HotelApiClient($cfgUri[$this->lib],
             $cfgApi["userName"],
             $cfgApi["password"],
             new ApiVersion(ApiVersions::V1_0),
-            "search",
+            $this->lib,
             $cfgUri["timeout"],
             null);
     }
@@ -69,7 +73,7 @@ class LanguageTest extends TestCase
      */
     public function testLanguagesReq()
     {
-        $reqData = new \webbeds\hotel_api_sdk\helpers\GetLanguages();
+        $reqData = new \webbeds\hotel_api_sdk\helpers\search\GetLanguages();
         
         $reqData->userName = $this->userName;
         $reqData->password = $this->password;
@@ -96,7 +100,7 @@ class LanguageTest extends TestCase
         $this->assertEquals((string)$xmlResp->languages->language[0]->name, "English");
         $native = $this->apiClient->ConvertXMLToNative($xmlResp, "GetLanguages");
 
-        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\GetLanguagesResp");
+        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\search\GetLanguagesResp");
       
         return $native;
     }
@@ -112,7 +116,7 @@ class LanguageTest extends TestCase
         $this->assertFalse($getLanguagesResp->isEmpty(), "Response is empty!");
         /*
         foreach ($getLanguagesResp->iterator() as $isoCode => $languageData) {
-            echo $languageData->isoCode . ', '.$languageData->name. "\r\n";
+            echo $languageData->isoCode . ', '.$languageData->name. "".PHP_EOL;
         }*/
     }
 }

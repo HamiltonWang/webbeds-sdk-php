@@ -25,7 +25,7 @@
 use webbeds\hotel_api_sdk\HotelApiClient;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
-use webbeds\hotel_api_sdk\messages\GetHotelsResp;
+use webbeds\hotel_api_sdk\messages\search\GetHotelsResp;
 use webbeds\hotel_api_sdk\model\Hotel;
 use PHPUnit\Framework\TestCase;
 
@@ -75,22 +75,27 @@ class HotelApiClientTest extends TestCase
      * @var string exactDestinationMatch ExactHotelMatch to specify a precise hotel code match
      */
     private $exactDestinationMatch;
-    
+    /**
+     * @var string lib search api or book api
+     */
+    private $lib;
+
     protected function setUp()
     {
+        $this->lib = 'search';
         $reader = new Zend\Config\Reader\Ini();
-        $commonConfig   = $reader->fromFile(__DIR__ . '\config\Common.ini');
+        $commonConfig   = $reader->fromFile(__DIR__ . '/config/Common.ini');
         $currentEnvironment = $commonConfig["environment"]? $commonConfig["environment"]: "DEFAULT";
-        $environmentConfig   = $reader->fromFile(__DIR__ . '\config\Environment.' . strtoupper($currentEnvironment) . '.ini');
+        $environmentConfig   = $reader->fromFile(__DIR__ . '/config/Environment.' . strtoupper($currentEnvironment) . '.ini');
         $cfgUri = $commonConfig["url"];
         $cfgApi = $environmentConfig["apiclient"];
         $this->userName = $cfgApi["userName"];
         $this->password = $cfgApi["password"];
-        $this->apiClient = new HotelApiClient($cfgUri["search"],
+        $this->apiClient = new HotelApiClient($cfgUri[$this->lib],
             $cfgApi["userName"],
             $cfgApi["password"],
             new ApiVersion(ApiVersions::V1_0),
-            "search",
+            $this->lib,
             $cfgUri["timeout"],
             null);
 
@@ -109,7 +114,7 @@ class HotelApiClientTest extends TestCase
      */
     public function testHotelsReq()
     {
-        $reqData = new \webbeds\hotel_api_sdk\helpers\GetHotels();
+        $reqData = new \webbeds\hotel_api_sdk\helpers\search\GetHotels();
         
         $reqData->userName = $this->userName;
         $reqData->password = $this->password;
@@ -143,7 +148,7 @@ class HotelApiClientTest extends TestCase
         //$this->assertEquals((string)$xmlResp->hotels->hotel[0]->name, "6 Wilkes Barre Motel");
         $native = $this->apiClient->ConvertXMLToNative($xmlResp, "GetHotels");
 
-        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\GetHotelsResp");
+        $this->assertEquals(get_class($native), "webbeds\\hotel_api_sdk\\messages\\$this->lib\\GetHotelsResp");
         return $native;
     }
 
@@ -158,24 +163,24 @@ class HotelApiClientTest extends TestCase
         $this->assertFalse($getHotelsResp->isEmpty(), "Response is empty!");
         
         foreach ($getHotelsResp->iterator() as $hotel_id => $hotelData) {
-            echo "\r\n->" . $hotelData->hotelId . ', '.$hotelData->destinationId . ', '.$hotelData->name . "\r\n";
-            echo '->' . $hotelData->latitude .  ', ' . $hotelData->longitude . "\r\n";
+            echo "\r\n->" . $hotelData->hotelId . ', '.$hotelData->destinationId . ', '.$hotelData->name . "".PHP_EOL;
+            echo '->' . $hotelData->latitude .  ', ' . $hotelData->longitude . "".PHP_EOL;
             foreach($hotelData->images->iterator() as $id => $imageData) {
-                echo "-->images:" . $imageData->id . ', ' . $imageData->fullSizeImageUrl . "\r\n";
+                echo "-->images:" . $imageData->id . ', ' . $imageData->fullSizeImageUrl . "".PHP_EOL;
             }
 
             foreach($hotelData->features->iterator() as $id => $featureData) {
-                echo "-->features:" . $featureData->id . ', ' . $featureData->name . "\r\n";
+                echo "-->features:" . $featureData->id . ', ' . $featureData->name . "".PHP_EOL;
             }
 
             foreach($hotelData->hotelRoomType->iterator() as $id => $hotelRoomTypeData) {
-                echo "-->hotelRoomType:" . $hotelRoomTypeData->id . ', ' . $hotelRoomTypeData->roomType . "\r\n";
+                echo "-->hotelRoomType:" . $hotelRoomTypeData->id . ', ' . $hotelRoomTypeData->roomType . "".PHP_EOL;
 
                 foreach($hotelRoomTypeData->rooms->iterator() as $id => $roomData) {
-                    echo "--->rooms:" . $roomData->id . ', ' . $roomData->beds . "\r\n";
+                    echo "--->rooms:" . $roomData->id . ', ' . $roomData->beds . "".PHP_EOL;
 
                     foreach($roomData->paymentMethods->iterator() as $id => $paymentMethodData) {
-                        echo "---->paymentMethods:" . $paymentMethodData->id . ', ' . $paymentMethodData->name . "\r\n";
+                        echo "---->paymentMethods:" . $paymentMethodData->id . ', ' . $paymentMethodData->name . "".PHP_EOL;
                     }
                 }
             }

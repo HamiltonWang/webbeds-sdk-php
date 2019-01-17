@@ -5,7 +5,7 @@
  * Date: 11/4/2015
  * Time: 8:43 PM
  */
-namespace webbeds\hotel_api_sdk\model;
+namespace webbeds\hotel_api_sdk\model\search;
 
 use webbeds\hotel_api_sdk\model\ApiModel;
 
@@ -28,16 +28,19 @@ class SearchMeal extends ApiModel
             [
                 "id" => "integer",
                 "price" => "string",
-                "prices" => "array"
+                "discount" => "string"
             ];
-
+            //"prices" => "array"
     
             if ($data !== null)
             {
                 $this->fields['id'] = $data['id'];
+                $this->fields['labelId'] = empty($data['labelId'])? '': $data['labelId'];
                 $this->fields['price'] = $data['prices']['price'];
+                $this->fields['dsicount'] = empty($data['dicount'])? '': $data['dicount'];
+
                 // TODO: price node cannot display attribute, and not an array
-                //$this->fields['prices'] = empty($data['prices']) ? new SearchPrices([]): new SearchPrices($data['prices']);
+                //$this->fields['prices'] = empty($data['prices']) ? new Prices([]): new Prices($data['prices']);
             }
     }
 }

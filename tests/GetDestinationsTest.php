@@ -25,8 +25,8 @@
 use webbeds\hotel_api_sdk\HotelApiClient;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
-use webbeds\hotel_api_sdk\messages\GetDestinationsResp;
-use webbeds\hotel_api_sdk\model\Destination;
+use webbeds\hotel_api_sdk\messages\search\GetDestinationsResp;
+use webbeds\hotel_api_sdk\model\search\Destination;
 use PHPUnit\Framework\TestCase;
 
 class HotelApiClientTest extends TestCase
@@ -63,22 +63,27 @@ class HotelApiClientTest extends TestCase
      * @var string exactDestinationMatch ExactDestinationMatch to specify a precise destination code match
      */
     private $exactDestinationMatch;
-    
+    /**
+     * @var string lib search api or book api
+     */
+    private $lib;
+
     protected function setUp()
     {
+        $this->lib = 'search';
         $reader = new Zend\Config\Reader\Ini();
-        $commonConfig   = $reader->fromFile(__DIR__ . '\config\Common.ini');
+        $commonConfig   = $reader->fromFile(__DIR__ . '/config/Common.ini');
         $currentEnvironment = $commonConfig["environment"]? $commonConfig["environment"]: "DEFAULT";
-        $environmentConfig   = $reader->fromFile(__DIR__ . '\config\Environment.' . strtoupper($currentEnvironment) . '.ini');
+        $environmentConfig   = $reader->fromFile(__DIR__ . '/config/Environment.' . strtoupper($currentEnvironment) . '.ini');
         $cfgUri = $commonConfig["url"];
         $cfgApi = $environmentConfig["apiclient"];
         $this->userName = $cfgApi["userName"];
         $this->password = $cfgApi["password"];
-        $this->apiClient = new HotelApiClient($cfgUri["search"],
+        $this->apiClient = new HotelApiClient($cfgUri[$this->lib],
             $cfgApi["userName"],
             $cfgApi["password"],
             new ApiVersion(ApiVersions::V1_0),
-            "search",
+            $this->lib,
             $cfgUri["timeout"],
             null);
 
@@ -94,7 +99,7 @@ class HotelApiClientTest extends TestCase
      */
     public function testDestinationsReq()
     {
-        $reqData = new \webbeds\hotel_api_sdk\helpers\GetDestinations();
+        $reqData = new \webbeds\hotel_api_sdk\helpers\search\GetDestinations();
         
         $reqData->userName = $this->userName;
         $reqData->password = $this->password;
@@ -104,10 +109,7 @@ class HotelApiClientTest extends TestCase
         $reqData->sortOrder = $this->sortOrder;
         $reqData->exactDestinationMatch = $this->exactDestinationMatch;
 
-
         $resp = $this->apiClient->GetDestinations($reqData);
-        //echo '--> testDestinationsReq:';
-        //print_r( $resp);
         
         $this->assertNotEmpty($resp);
         return $resp;
@@ -127,7 +129,7 @@ class HotelApiClientTest extends TestCase
         $this->assertEquals((string)$xmlResp->Destinations->Destination[0]->DestinationName, "Hsinchu");
         $native = $this->apiClient->ConvertXMLToNative($xmlResp, "GetDestinations");
 
-        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\GetDestinationsResp");
+        $this->assertEquals(get_class($native), "webbeds\\hotel_api_sdk\\messages\\$this->lib\\GetDestinationsResp");
         return $native;
     }
 
@@ -143,10 +145,10 @@ class HotelApiClientTest extends TestCase
         $this->assertEquals($getDestinationsResp->iterator()->current()->destinationName, "Hsinchu");
         
         /*
-        echo "\r\n";
+        echo "".PHP_EOL;
         foreach ($getDestinationsResp->iterator() as $destination_id => $destinationData) {
             echo $destinationData->destination_id . ', '.$destinationData->destinationCode . ', '.$destinationData->destinationCode2 . ', '.$destinationData->destinationCode3 . ', '.$destinationData->destinationCode4. ', ';
-            echo $destinationData->destinationName . ', ' .$destinationData->countryId  . ', ' .$destinationData->countryName  . ', ' .$destinationData->countryCode  . ', ' .$destinationData->timeZone . "\r\n";
+            echo $destinationData->destinationName . ', ' .$destinationData->countryId  . ', ' .$destinationData->countryName  . ', ' .$destinationData->countryCode  . ', ' .$destinationData->timeZone . "".PHP_EOL;
         }*/
     }
 }

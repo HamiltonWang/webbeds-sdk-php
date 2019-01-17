@@ -5,7 +5,10 @@
  * Date: 11/12/2015
  * Time: 2:21 AM
  */
-namespace webbeds\hotel_api_sdk\model;
+namespace webbeds\hotel_api_sdk\model\search;
+
+use webbeds\hotel_api_sdk\model\ApiModel;
+
 class GetHotelRoomTypeIterator implements \Iterator
 {
     private $roomTypes, $position = 0;

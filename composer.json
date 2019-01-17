@@ -14,7 +14,8 @@
         "zendframework/zend-http": "^2.5",
         "zendframework/zend-json": "^2.5",
         "phpdocumentor/phpdocumentor": "2.*",
-        "phpunit/phpunit": "7.1"
+        "phpunit/phpunit": "7.1",
+        "imsop/simplexml_debug": "^1.0"
     },
     "license": "LGPL-2.1",
     "authors": [

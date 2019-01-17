@@ -5,7 +5,10 @@
  * Date: 11/12/2015
  * Time: 1:33 AM
  */
-namespace webbeds\hotel_api_sdk\model;
+namespace webbeds\hotel_api_sdk\model\common;
+
+use webbeds\hotel_api_sdk\model\ApiModel;
+
 /**
  * Class CancellationPolicies
  * @package webbeds\hotel_api_sdk\model

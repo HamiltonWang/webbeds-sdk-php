@@ -25,8 +25,8 @@
 use webbeds\hotel_api_sdk\HotelApiClient;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
-use webbeds\hotel_api_sdk\messages\PreBookV2Resp;
-use webbeds\hotel_api_sdk\model\Search;
+use webbeds\hotel_api_sdk\messages\book\PreBookV2Resp;
+use webbeds\hotel_api_sdk\model\Book;
 use PHPUnit\Framework\TestCase;
 
 class HotelApiClientTest extends TestCase
@@ -160,7 +160,7 @@ class HotelApiClientTest extends TestCase
      */
     public function testPreBookV2Req()
     {
-        $reqData = new \webbeds\hotel_api_sdk\helpers\Book\PreBookV2();
+        $reqData = new \webbeds\hotel_api_sdk\helpers\book\PreBookV2();
         
         $reqData->userName = $this->userName;
         $reqData->password = $this->password;
@@ -199,7 +199,7 @@ class HotelApiClientTest extends TestCase
     {
         $native = $this->apiClient->ConvertXMLToNative($xmlResp, "PreBookV2");
 
-        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\PreBookV2Resp");
+        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\book\PreBookV2Resp");
        
         return $native;
     }
@@ -217,15 +217,15 @@ class HotelApiClientTest extends TestCase
         
         echo "\r\n\r\n ===== This information can be used for testing Book Api: ======";
         echo "CheckIn/Out Date: $this->checkInDate~$this->checkOutDate RoomId:$this->roomId, Rooms:$this->rooms  \r\n ";
-        echo "adults:$this->adults, children:$this->children, childrenAges:$this->childrenAges, infant:$this->infant \r\n";
-        echo "mealId:$this->mealId, customerCountry:$this->customerCountry, b2c:" . ($this->b2c ? 1:0) .", searchPrice:$this->searchPrice \r\n";
+        echo "adults:$this->adults, children:$this->children, childrenAges:$this->childrenAges, infant:$this->infant ".PHP_EOL;
+        echo "mealId:$this->mealId, customerCountry:$this->customerCountry, b2c:" . ($this->b2c ? 1:0) .", searchPrice:$this->searchPrice ".PHP_EOL;
         echo "Response Output:";
-        echo "->preBookCode: $preBookV2Resp->preBookCode, price: $preBookV2Resp->price $preBookV2Resp->currency \r\n";
+        echo "->preBookCode: $preBookV2Resp->preBookCode, price: $preBookV2Resp->price $preBookV2Resp->currency ".PHP_EOL;
         $priceBreakdown = $preBookV2Resp->priceBreakdowns;
 
         $this->assertNotEmpty($priceBreakdown);
         foreach ($priceBreakdown->iterator() as $Id => $priceBreakdownData) {
-            echo "-->priceBreakdown: totalPrice:$priceBreakdownData->totalPrice , type:$priceBreakdownData->type  price:$priceBreakdownData->price  breakdown:$priceBreakdownData->breakdown  \r\n";
+            echo "-->priceBreakdown: totalPrice:$priceBreakdownData->totalPrice , type:$priceBreakdownData->type  price:$priceBreakdownData->price  breakdown:$priceBreakdownData->breakdown  ".PHP_EOL;
         }
         echo "=================================================================";
 

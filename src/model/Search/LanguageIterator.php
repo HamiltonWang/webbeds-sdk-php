@@ -5,9 +5,9 @@
  * Date: 07/09/2016
  * Time: 06:21 PM
  */
-namespace webbeds\hotel_api_sdk\model;
+namespace webbeds\hotel_api_sdk\model\search;
 
-use webbeds\hotel_api_sdk\model\Language;
+use webbeds\hotel_api_sdk\model\ApiModel;
 
 class LanguageIterator implements \Iterator
 {
