@@ -202,44 +202,79 @@ class HotelApiClientTest extends TestCase
             $cfgUri["timeout"],
             null);
 
+        $this->currency = 'TWD';    
         $this->language = 'en';
-        $this->currencies = 'TWD';        
+        $this->email = 'hamilton@aiart.io';
         $this->checkInDate ='2019-03-01';
         $this->checkOutDate ='2019-03-03';
-        $this->numberOfRooms = 1;
-        $this->destination = '';
-        $this->destinationId = 552;
-        $this->hotelIds = ''; //'126267';
-        $this->resortIds = ''; //'126267';
-        $this->accommodationTypes = '';
-        
-        $this->numberOfAdults = 2;
-        $this->numberOfChildren = 0;
-        $this->childrenAges = '';
+        $this->roomId = '29012319';
+        $this->rooms = 1;
+        $this->adults = 2;
+        $this->children = 0;
         $this->infant = 0;
-        $this->sortBy = 'Price';
-        $this->sortOrder = 'Ascending';
-        $this->exactDestinationMatch = true;
-        $this->blockSuperdeal = false;
-        $this->mealIds = '';
-        $this->showCoordinates = '1';
-        $this->showReviews = '';
-        $this->referencePointLatitude = '';
-        $this->referencePointLongitude = '';
-        $this->maxDistanceFromReferencePoint ='';
-        $this->minStarRating = '';
-        $this->maxStarRating = '';
-        $this->featureIds = '';
-        $this->minPrice ='';
-        $this->maxPrice = '';
-        $this->themeIds = '';
-        $this->excludeSharedRooms = true;
-        $this->excludeSharedFacilities = '';
-        $this->prioritizedHotelIds = '';
-        $this->totalRoomsInBatch = '';
-        $this->paymentMethodId ='1';
+        $this->yourRef = 'test';
+        $this->specialRequest = 'specialRequest';
+        $this->mealIds = '1';
+
+        $this->adultGuest1FirstName = 'Hamilton';
+        $this->adultGuest1LastName = 'Wang';
+        $this->adultGuest2FirstName = 'Melisa';
+        $this->adultGuest2LastName = 'Wang';
+        $this->adultGuest3FirstName = '';
+        $this->adultGuest3LastName = '';
+        $this->adultGuest4FirstName = '';
+        $this->adultGuest4LastName = '';
+        $this->adultGuest5FirstName = '';
+        $this->adultGuest5LastName = '';
+        $this->adultGuest6FirstName = '';
+        $this->adultGuest6LastName = '';
+        $this->adultGuest7FirstName = '';
+        $this->adultGuest7LastName = '';
+        $this->adultGuest8FirstName = '';
+        $this->adultGuest8LastName = '';
+        $this->adultGuest9FirstName = '';
+        $this->adultGuest9LastName = '';
+        $this->childrenGuest1FirstName = '';
+        $this->childrenGuest1LastName = '';
+        $this->childrenGuestAge1 = '';
+        $this->childrenGuest1FirstName = '';
+        $this->childrenGuest1LastName = '';
+        $this->childrenGuestAge1 = '';
+        $this->childrenGuest1FirstName = '';
+        $this->childrenGuest1LastName = '';
+        $this->childrenGuestAge1 = '';
+        $this->childrenGuest1FirstName = '';
+        $this->childrenGuest1LastName = '';
+        $this->childrenGuestAge1 = '';
+        $this->childrenGuest1FirstName = '';
+        $this->childrenGuest1LastName = '';
+        $this->childrenGuestAge1 = '';
+        $this->childrenGuest1FirstName = '';
+        $this->childrenGuest1LastName = '';
+        $this->childrenGuestAge1 = '';
+        $this->childrenGuest1FirstName = '';
+        $this->childrenGuest1LastName = '';
+        $this->childrenGuestAge1 = '';
+        $this->childrenGuest1FirstName = '';
+        $this->childrenGuest1LastName = '';
+        $this->childrenGuestAge1 = '';
+        $this->childrenGuest1FirstName = '';
+        $this->childrenGuest1LastName = '';
+        $this->childrenGuestAge1 = '';
+
+        $this->paymentMethodId = '';
+        $this->creditCardType = '';
+        $this->creditCardNumber = '';
+        $this->creditCardHolder = '';
+        $this->creditCardCVV2 = '';
+        $this->creditCardExpYear = '';
+        $this->creditCardExpMonth = '';
+        $this->customerEmail = '';
+        $this->invoiceRef = 'invoiceRef';
+        $this->commissionAmountInHotelCurrency = '';
         $this->customerCountry = 'tw';
-        $this->b2c = false;
+        $this->b2c = '0';
+        $this->preBookCode = 'c3e0d793-24cf-453f-9afd-a886fd154fb2';
     }
 
     /**
@@ -247,49 +282,86 @@ class HotelApiClientTest extends TestCase
      */
     public function testHotelsReq()
     {
-        $reqData = new \webbeds\hotel_api_sdk\helpers\Search();
+        $reqData = new \webbeds\hotel_api_sdk\helpers\Book\Book();
         
         $reqData->userName = $this->userName;
         $reqData->password = $this->password;
-        $reqData->language = $this->language;     
-        $reqData->currencies = $this->currencies;   
+        $reqData->language = $this->language;           
+        $reqData->currency = $this->currency;   
+        $reqData->language = $this->language;
+        $reqData->email = $this->email;
         $reqData->checkInDate = $this->checkInDate;
         $reqData->checkOutDate = $this->checkOutDate;
-        $reqData->destination = $this->destination;
-        $reqData->destinationId = $this->destinationId;
-        $reqData->hotelIds = $this->hotelIds;
-        $reqData->resortIds = $this->resortIds;
-        $reqData->accommodationTypes = $this->accommodationTypes;
-        $reqData->numberOfRooms = $this->numberOfRooms;
-        $reqData->numberOfAdults = $this->numberOfAdults;
-        $reqData->numberOfChildren = $this->numberOfChildren;
-        $reqData->childrenAges = $this->childrenAges;
+        $reqData->roomId = $this->roomId;
+        $reqData->rooms = $this->rooms;
+        $reqData->adults = $this->adults;
+        $reqData->children = $this->children;
         $reqData->infant = $this->infant;
-        $reqData->sortBy = $this->sortBy;
-        $reqData->sortOrder = $this->sortOrder;
-        $reqData->exactDestinationMatch = $this->exactDestinationMatch;
-        $reqData->blockSuperdeal = $this->blockSuperdeal;
+        $reqData->yourRef = $this->yourRef;
+        $reqData->specialRequest = $this->specialRequest;
         $reqData->mealIds = $this->mealIds;
-        $reqData->showCoordinates = $this->showCoordinates;
-        $reqData->showReviews = $this->showReviews;
-        $reqData->referencePointLatitude = $this->referencePointLatitude;
-        $reqData->referencePointLongitude = $this->referencePointLongitude;
-        $reqData->maxDistanceFromReferencePoint = $this->maxDistanceFromReferencePoint;
-        $reqData->minStarRating = $this->minStarRating;
-        $reqData->maxStarRating = $this->maxStarRating;
-        $reqData->featureIds = $this->featureIds;
-        $reqData->minPrice = $this->minPrice;
-        $reqData->maxPrice = $this->maxPrice;
-        $reqData->themeIds = $this->themeIds;
-        $reqData->excludeSharedRooms = $this->excludeSharedRooms;
-        $reqData->excludeSharedFacilities = $this->excludeSharedFacilities;
-        $reqData->prioritizedHotelIds = $this->prioritizedHotelIds;
-        $reqData->totalRoomsInBatch = $this->totalRoomsInBatch;
+
+        $reqData->adultGuest1FirstName = $this->adultGuest1FirstName;
+        $reqData->adultGuest1LastName = $this->adultGuest1LastName;
+        $reqData->adultGuest2FirstName = $this->adultGuest2FirstName;
+        $reqData->adultGuest2LastName = $this->adultGuest2LastName;
+        $reqData->adultGuest3FirstName = $this->adultGuest3FirstName;
+        $reqData->adultGuest3LastName = $this->adultGuest3LastName;
+        $reqData->adultGuest4FirstName = $this->adultGuest4FirstName;
+        $reqData->adultGuest4LastName = $this->adultGuest4LastName;
+        $reqData->adultGuest5FirstName = $this->adultGuest5FirstName;
+        $reqData->adultGuest5LastName = $this->adultGuest5LastName;
+        $reqData->adultGuest6FirstName = $this->adultGuest6FirstName;
+        $reqData->adultGuest6LastName = $this->adultGuest6LastName;
+        $reqData->adultGuest7FirstName = $this->adultGuest7FirstName;
+        $reqData->adultGuest7LastName = $this->adultGuest7LastName;
+        $reqData->adultGuest8FirstName = $this->adultGuest8FirstName;
+        $reqData->adultGuest8LastName = $this->adultGuest8LastName;
+        $reqData->adultGuest9FirstName = $this->adultGuest9FirstName;
+        $reqData->adultGuest9LastName = $this->adultGuest9LastName;
+        $reqData->childrenGuest1FirstName = $this->childrenGuest1FirstName;
+        $reqData->childrenGuest1LastName = $this->childrenGuest1LastName;
+        $reqData->childrenGuestAge1 = $this->childrenGuestAge1;
+        $reqData->childrenGuest1FirstName = $this->childrenGuest1FirstName;
+        $reqData->childrenGuest1LastName = $this->childrenGuest1LastName;
+        $reqData->childrenGuestAge1 = $this->childrenGuestAge1;
+        $reqData->childrenGuest1FirstName = $this->childrenGuest1FirstName;
+        $reqData->childrenGuest1LastName = $this->childrenGuest1LastName;
+        $reqData->childrenGuestAge1 = $this->childrenGuestAge1;
+        $reqData->childrenGuest1FirstName = $this->childrenGuest1FirstName;
+        $reqData->childrenGuest1LastName = $this->childrenGuest1LastName;
+        $reqData->childrenGuestAge1 = $this->childrenGuestAge1;
+        $reqData->childrenGuest1FirstName = $this->childrenGuest1FirstName;
+        $reqData->childrenGuest1LastName = $this->childrenGuest1LastName;
+        $reqData->childrenGuestAge1 = $this->childrenGuestAge1;
+        $reqData->childrenGuest1FirstName = $this->childrenGuest1FirstName;
+        $reqData->childrenGuest1LastName = $this->childrenGuest1LastName;
+        $reqData->childrenGuestAge1 = $this->childrenGuestAge1;
+        $reqData->childrenGuest1FirstName = $this->childrenGuest1FirstName;
+        $reqData->childrenGuest1LastName = $this->childrenGuest1LastName;
+        $reqData->childrenGuestAge1 = $this->childrenGuestAge1;
+        $reqData->childrenGuest1FirstName = $this->childrenGuest1FirstName;
+        $reqData->childrenGuest1LastName = $this->childrenGuest1LastName;
+        $reqData->childrenGuestAge1 = $this->childrenGuestAge1;
+        $reqData->childrenGuest1FirstName = $this->childrenGuest1FirstName;
+        $reqData->childrenGuest1LastName = $this->childrenGuest1LastName;
+        $reqData->childrenGuestAge1 = $this->childrenGuestAge1;
+
         $reqData->paymentMethodId = $this->paymentMethodId;
+        $reqData->creditCardType = $this->creditCardType;
+        $reqData->creditCardNumber = $this->creditCardNumber;
+        $reqData->creditCardHolder = $this->creditCardHolder;
+        $reqData->creditCardCVV2 = $this->creditCardCVV2;
+        $reqData->creditCardExpYear = $this->creditCardExpYear;
+        $reqData->creditCardExpMonth = $this->creditCardExpMonth;
+        $reqData->customerEmail = $this->customerEmail;
+        $reqData->invoiceRef = $this->invoiceRef;
+        $reqData->commissionAmountInHotelCurrency = $this->commissionAmountInHotelCurrency;
         $reqData->customerCountry = $this->customerCountry;
         $reqData->b2c = $this->b2c;
+        $reqData->preBookCode = $this->preBookCode;
 
-        $resp = $this->apiClient->Search($reqData);
+        $resp = $this->apiClient->Book($reqData);
 
         $this->assertNotEmpty($resp);
         return $resp;
@@ -300,16 +372,16 @@ class HotelApiClientTest extends TestCase
      *
      * @depends testHotelsReq
      */
-    public function testHotelXMLResp(SimpleXMLElement $xmlResp)
+    public function testBookXMLResp(SimpleXMLElement $xmlResp)
     {
         //print_r( $this->apiClient->ConvertXMLToArray($xmlResp) );
         //print_r( $this->apiClient->ConvertXMLToNative($resp, "Search") );
         //print_r($xmlResp);
 
         //$this->assertEquals((string)$xmlResp->hotels->hotel[0]->name, "6 Wilkes Barre Motel");
-        $native = $this->apiClient->ConvertXMLToNative($xmlResp, "Search");
+        $native = $this->apiClient->ConvertXMLToNative($xmlResp, "Book");
 
-        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\SearchResp");
+        $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\BookResp");
         return $native;
     }
 
@@ -318,7 +390,7 @@ class HotelApiClientTest extends TestCase
      *
      * @depends testHotelXMLResp
      */
-    public function testHotelResp(SearchResp $searchResp)
+    public function testBookResp(SearchResp $searchResp)
     {
         // Check is response is empty or not
         $this->assertFalse($searchResp->isEmpty(), "Response is empty!");

@@ -8,13 +8,13 @@ namespace webbeds\hotel_api_sdk\helpers;
 
 
 /**
- * Class Search
+ * Class Book
  * @package webbeds\hotel_api_sdk\helpers
 */
-class Search extends ApiHelper
+class Book extends ApiHelper
 {
     /**
-     * Search constructor.
+     * Book constructor.
      */
     public function __construct()
     {
@@ -32,7 +32,7 @@ class Search extends ApiHelper
             "children" => "integer",
             "infant" => "integer",
             "yourRef" => "string",
-            "specialrequest" => "string",
+            "specialRequest" => "string",
             "mealIds" => "string",
             "adultGuest1FirstName" => "string",
             "adultGuest1LastName" => "string",

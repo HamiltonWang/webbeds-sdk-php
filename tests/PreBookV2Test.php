@@ -160,7 +160,7 @@ class HotelApiClientTest extends TestCase
      */
     public function testPreBookV2Req()
     {
-        $reqData = new \webbeds\hotel_api_sdk\helpers\PreBookV2();
+        $reqData = new \webbeds\hotel_api_sdk\helpers\Book\PreBookV2();
         
         $reqData->userName = $this->userName;
         $reqData->password = $this->password;
