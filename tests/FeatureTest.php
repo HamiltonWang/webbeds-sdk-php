@@ -121,10 +121,9 @@ class HotelApiClientTest extends TestCase
         // Check is response is empty or not
         $this->assertFalse($getFeaturesResp->isEmpty(), "Response is empty!");
         $this->assertEquals($getFeaturesResp->iterator()->current()->name, "Air Conditioning");
-        //print_r($getFeaturesResp->iterator()->current());
-        /*
+        
         foreach ($getFeaturesResp->iterator() as $id => $featureData) {
             echo $featureData->id . ', '.$featureData->name .PHP_EOL;
-        }*/
+        }
     }
 }
