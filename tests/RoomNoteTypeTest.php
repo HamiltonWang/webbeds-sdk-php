@@ -123,7 +123,7 @@ class HotelApiClientTest extends TestCase
         $this->assertEquals($getRoomNoteTypesResp->iterator()->current()->text, "Gala Dinner included");
         /*
         foreach ($getRoomNoteTypesResp->iterator() as $id => $roomNoteTypeData) {
-            echo $roomNoteTypeData->id . ', '.$roomNoteTypeData->text . "".PHP_EOL;
+            echo $roomNoteTypeData->id . ', '.$roomNoteTypeData->text .PHP_EOL;
         }*/
     }
 }

@@ -163,24 +163,24 @@ class HotelApiClientTest extends TestCase
         $this->assertFalse($getHotelsResp->isEmpty(), "Response is empty!");
         
         foreach ($getHotelsResp->iterator() as $hotel_id => $hotelData) {
-            echo "\r\n->" . $hotelData->hotelId . ', '.$hotelData->destinationId . ', '.$hotelData->name . "".PHP_EOL;
-            echo '->' . $hotelData->latitude .  ', ' . $hotelData->longitude . "".PHP_EOL;
+            echo "\r\n->" . $hotelData->hotelId . ', '.$hotelData->destinationId . ', '.$hotelData->name.PHP_EOL;
+            echo '->' . $hotelData->latitude .  ', ' . $hotelData->longitude .PHP_EOL;
             foreach($hotelData->images->iterator() as $id => $imageData) {
-                echo "-->images:" . $imageData->id . ', ' . $imageData->fullSizeImageUrl . "".PHP_EOL;
+                echo "-->images:" . $imageData->id . ', ' . $imageData->fullSizeImageUrl .PHP_EOL;
             }
 
             foreach($hotelData->features->iterator() as $id => $featureData) {
-                echo "-->features:" . $featureData->id . ', ' . $featureData->name . "".PHP_EOL;
+                echo "-->features:" . $featureData->id . ', ' . $featureData->name .PHP_EOL;
             }
 
             foreach($hotelData->hotelRoomType->iterator() as $id => $hotelRoomTypeData) {
-                echo "-->hotelRoomType:" . $hotelRoomTypeData->id . ', ' . $hotelRoomTypeData->roomType . "".PHP_EOL;
+                echo "-->hotelRoomType:" . $hotelRoomTypeData->id . ', ' . $hotelRoomTypeData->roomType .PHP_EOL;
 
                 foreach($hotelRoomTypeData->rooms->iterator() as $id => $roomData) {
-                    echo "--->rooms:" . $roomData->id . ', ' . $roomData->beds . "".PHP_EOL;
+                    echo "--->rooms:" . $roomData->id . ', ' . $roomData->beds .PHP_EOL;
 
                     foreach($roomData->paymentMethods->iterator() as $id => $paymentMethodData) {
-                        echo "---->paymentMethods:" . $paymentMethodData->id . ', ' . $paymentMethodData->name . "".PHP_EOL;
+                        echo "---->paymentMethods:" . $paymentMethodData->id . ', ' . $paymentMethodData->name .PHP_EOL;
                     }
                 }
             }

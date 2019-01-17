@@ -124,7 +124,7 @@ class HotelApiClientTest extends TestCase
 
         /*
         foreach ($getHotelNoteTypesResp->iterator() as $id => $hotelNoteTypeData) {
-            echo $hotelNoteTypeData->id . ', '.$hotelNoteTypeData->text . "".PHP_EOL;
+            echo $hotelNoteTypeData->id . ', '.$hotelNoteTypeData->text .PHP_EOL;
         }*/
     }
 }

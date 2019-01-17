@@ -118,7 +118,7 @@ class HotelApiClientTest extends TestCase
         $this->assertEquals($getRoomTypesResp->iterator()->current()->name, "Single room");
         /*
         foreach ($getRoomTypesResp->iterator() as $id => $roomTypeData) {
-            echo $roomTypeData->id . ', '.$roomTypeData->name . ', '.$roomTypeData->sharedRoom . ', ' .$roomTypeData->sharedFacilities . "".PHP_EOL;
+            echo $roomTypeData->id . ', '.$roomTypeData->name . ', '.$roomTypeData->sharedRoom . ', ' .$roomTypeData->sharedFacilities .PHP_EOL;
         }*/
     }
 }

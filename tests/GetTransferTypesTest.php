@@ -129,7 +129,7 @@ class HotelApiClientTest extends TestCase
         $this->assertEquals($getTransferTypesResp->iterator()->current()->name, "Private Taxi");
         
         foreach ($getTransferTypesResp->iterator() as $id => $transferTypeData) {
-            echo $transferTypeData->id . ', '.$transferTypeData->name  . "".PHP_EOL;
+            echo $transferTypeData->id . ', '.$transferTypeData->name  .PHP_EOL;
         }
     }
 }

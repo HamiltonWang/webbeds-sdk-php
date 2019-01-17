@@ -124,7 +124,7 @@ class HotelApiClientTest extends TestCase
         //print_r($getFeaturesResp->iterator()->current());
         /*
         foreach ($getFeaturesResp->iterator() as $id => $featureData) {
-            echo $featureData->id . ', '.$featureData->name . "".PHP_EOL;
+            echo $featureData->id . ', '.$featureData->name .PHP_EOL;
         }*/
     }
 }
