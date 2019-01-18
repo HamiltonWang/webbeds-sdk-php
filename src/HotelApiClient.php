@@ -178,17 +178,17 @@ class HotelApiClient
         $sdkClassResp = "webbeds\\hotel_api_sdk\\messages\\".$this->lib."\\".$sdkMethod."Resp";
         //print_r($xml_string);
         $array = $this->ConvertXMLToArray2($xml_string);
-        //print_r($array);
+
         return new $sdkClassResp($array);
     }
     
     /**
      * @return array ConvertSimpleXMLToNative convert XML Object to Native format
      */
-    public function ConvertSimpleXMLToNative($xml_string, $root, $sdkMethod)
+    public function ConvertSimpleXMLToNative($xml_string, $sdkMethod)
     {
         $sdkClassResp = "webbeds\\hotel_api_sdk\\messages\\".$this->lib."\\".$sdkMethod."Resp";
-        $data = $xml_string->hotels;
+        $data = $this->ConvertXMLToJson($xml_string);
         //print_r($data);
         return new $sdkClassResp($data);
     }
@@ -217,7 +217,6 @@ class HotelApiClient
         //print_r($result);
         return $result;
     }
-
 
     /**
      * @return array ConvertXMLToArray2 convert XMl Object to Array format

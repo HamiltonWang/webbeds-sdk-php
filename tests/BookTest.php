@@ -25,7 +25,7 @@
 use webbeds\hotel_api_sdk\HotelApiClient;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
-use webbeds\hotel_api_sdk\messages\BookResp;
+use webbeds\hotel_api_sdk\messages\book\BookResp;
 use webbeds\hotel_api_sdk\model\Book;
 use PHPUnit\Framework\TestCase;
 
@@ -212,7 +212,7 @@ class HotelApiClientTest extends TestCase
         $this->email = 'hamilton@aiart.io';
         $this->checkInDate ='2019-03-01';
         $this->checkOutDate ='2019-03-03';
-        $this->roomId = 29012319;
+        $this->roomId = 12306181;
         $this->rooms = 1;
         $this->adults = 2;
         $this->children = 0;
@@ -279,7 +279,7 @@ class HotelApiClientTest extends TestCase
         $this->commissionAmountInHotelCurrency = '';
         $this->customerCountry = 'tw';
         $this->b2c = '0';
-        $this->preBookCode = 'f43f7145-279c-4659-9bf3-a584c97ed471';
+        $this->preBookCode = '33463ad4-9228-4f57-974a-e75fed3e4b2c';
     }
 
     /**
@@ -380,8 +380,8 @@ class HotelApiClientTest extends TestCase
      */
     public function testBookXMLResp(SimpleXMLElement $xmlResp)
     {
+        // TODO: parsing prices have oroblem with attribute missing 
         $native = $this->apiClient->ConvertXMLToNative($xmlResp, "Book");
-
         $this->assertEquals(get_class($native), "webbeds\\hotel_api_sdk\\messages\\$this->lib\\BookResp");
         
         return $native;
@@ -392,22 +392,42 @@ class HotelApiClientTest extends TestCase
      *
      * @depends testBookXMLResp
      */
-    public function testBookResp( $bookResp)
+    public function testBookResp(BookResp $bookResp)
     {
         // Check is response is empty or not
-        $this->assertFalse($bookResp->isError(), "Response is empty!");
+        $this->assertFalse($bookResp->isError(), "Response is empty! Message: $bookResp->error");
         
-        echo PHP_EOL."bookingnumber: $this->bookingNumber, $this->hotelName" . PHP_EOL;
-        echo "voucher: $this->voucher, paymentmethodName:$this->paymentmethodName ".PHP_EOL;
-        echo "bookedBy: $this->bookedBy ".PHP_EOL;
-        echo "checkin/out: $this->checkinDate ~ $this->checkoutDate ".PHP_EOL;
+        echo PHP_EOL."bookingnumber: $bookResp->bookingNumber, $bookResp->hotelName, $bookResp->roomEnglishType" . PHP_EOL;
+        echo "voucher: $bookResp->voucher, paymentmethodName:$bookResp->paymentmethodName ".PHP_EOL;
+        echo "bookedBy: $bookResp->bookedBy ".PHP_EOL;
+        echo "prices: $bookResp->prices, $bookResp->currency".PHP_EOL;
+        echo "invoiceRef: $bookResp->invoiceRef".PHP_EOL;
         
+        echo "checkin/out: $bookResp->checkinDate ~ $bookResp->checkoutDate ".PHP_EOL;
+        echo "earliestNonFreeCancellationDateLocal: $bookResp->earliestNonFreeCancellationDateLocal ".PHP_EOL;
+        echo "earliestNonFreeCancellationDateCet: $bookResp->earliestNonFreeCancellationDateCet ".PHP_EOL;
+
+        
+        /*
+        //TODO: problem with capturing price's attributes
         foreach ($bookResp->prices->iterator() as $Id => $priceData) {
             echo "\r\n ->prices: $priceData->price $priceData->currency, paymentMethod:$priceData->paymentMethods ".PHP_EOL;
-        }
+        }*/
         
         foreach ($bookResp->cancellationPoliciesIterator() as $Id => $cxlPolicyData) {
-            echo "\r\n ->cxlPolicy: deadline:$cxlPolicyData->deadline, percentage:$cxlPolicyData->percentage, text:$cxlPolicyData->text ".PHP_EOL;
+            echo "->cxlPolicy: deadline:$cxlPolicyData->deadline, percentage:$cxlPolicyData->percentage, text:$cxlPolicyData->text ".PHP_EOL;
+        }
+        foreach ($bookResp->hotelNotes->iterator() as $Id => $data) {
+            echo "->hotelNotes: startDate:$data->startDate, endDate:$data->endDate, text:$data->text ".PHP_EOL;
+        }
+        foreach ($bookResp->englishHotelNotes->iterator() as $Id => $data) {
+            echo "->englishHotelNotes: startDate:$data->startDate, endDate:$data->endDate, text:$data->text ".PHP_EOL;
+        }
+        foreach ($bookResp->roomNotes->iterator() as $Id => $data) {
+            echo "->roomNotes: startDate:$data->startDate, endDate:$data->endDate, text:$data->text ".PHP_EOL;
+        }
+        foreach ($bookResp->englishRoomNotes->iterator() as $Id => $data) {
+            echo "->englishRoomNotes: startDate:$data->startDate, endDate:$data->endDate, text:$data->text ".PHP_EOL;
         }
     }
 }

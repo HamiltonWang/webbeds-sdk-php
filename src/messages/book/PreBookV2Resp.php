@@ -41,7 +41,7 @@ class PreBookV2Resp extends ApiResponse
         parent::__construct($rsData);
 
         //if (array_key_exists("PreBookCode", $rsData)) {
-        if (!isset($this->Error)){
+        if (!isset($rsData['Error'])){
             $this->preBookCode = $this->PreBookCode;
             $this->price =  $this->Price;
             $this->currency =  $this->PriceBreakdown{'@attributes'}['currency'];
@@ -52,7 +52,7 @@ class PreBookV2Resp extends ApiResponse
             $this->cancellationPolicies = new CancellationPolicies($this->CancellationPolicies);
             $this->error = NULL;
         } else {
-            $this->error = isset($this->Error['Message']) ? $this->Error['Message']: NULL;
+            $this->error = $this->Error['Message'];
         }
     }
     /**

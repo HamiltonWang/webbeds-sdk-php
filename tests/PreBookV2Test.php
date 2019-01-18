@@ -138,7 +138,7 @@ class HotelApiClientTest extends TestCase
         $this->currency = 'TWD';        
         $this->checkInDate ='2019-03-01';
         $this->checkOutDate ='2019-03-03';
-        $this->roomId = '29012319';
+        $this->roomId = '12306181';
         $this->rooms = 1;
         $this->adults = 2;
         $this->children = 0;
@@ -147,7 +147,7 @@ class HotelApiClientTest extends TestCase
         $this->mealId = 1;
         $this->customerCountry = 'tw';
         $this->b2c = false;
-        $this->searchPrice ='56982';
+        $this->searchPrice ='71245';
 
         $this->hotelId = ''; //'126267';
         $this->roomtypeId ='';
@@ -215,8 +215,8 @@ class HotelApiClientTest extends TestCase
         //print_r($preBookV2Resp);
         $this->assertFalse($preBookV2Resp->isError(), "Response has error! $preBookV2Resp->error");
         
-        echo "\r\n\r\n ===== This information can be used for testing Book Api: ======";
-        echo "CheckIn/Out Date: $this->checkInDate~$this->checkOutDate RoomId:$this->roomId, Rooms:$this->rooms  \r\n ";
+        echo PHP_EOL." ===== This information can be used for testing Book Api: ======".PHP_EOL;
+        echo "CheckIn/Out Date: $this->checkInDate~$this->checkOutDate RoomId:$this->roomId, Rooms:$this->rooms".PHP_EOL;
         echo "adults:$this->adults, children:$this->children, childrenAges:$this->childrenAges, infant:$this->infant ".PHP_EOL;
         echo "mealId:$this->mealId, customerCountry:$this->customerCountry, b2c:" . ($this->b2c ? 1:0) .", searchPrice:$this->searchPrice ".PHP_EOL;
         echo "Response Output:";

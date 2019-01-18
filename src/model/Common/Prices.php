@@ -31,7 +31,6 @@ class Prices extends ApiModel
      */
     public function iterator()
     {
-        print_r($this->fields);
         if (isset($this->fields['price']) )
         {
             // make sure there is more than one item
