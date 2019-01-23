@@ -209,10 +209,10 @@ class HotelApiClientTest extends TestCase
 
         $this->currency = 'TWD';    
         $this->language = 'en';
-        $this->email = 'hamilton@aiart.io';
-        $this->checkInDate ='2019-03-01';
-        $this->checkOutDate ='2019-03-03';
-        $this->roomId = 12306181;
+        $this->email = 'ccccc@aiart.io';
+        $this->checkInDate ='2019-06-01';
+        $this->checkOutDate ='2019-06-03';
+        $this->roomId = 23209972;
         $this->rooms = 1;
         $this->adults = 2;
         $this->children = 0;
@@ -279,7 +279,7 @@ class HotelApiClientTest extends TestCase
         $this->commissionAmountInHotelCurrency = '';
         $this->customerCountry = 'tw';
         $this->b2c = '0';
-        $this->preBookCode = '33463ad4-9228-4f57-974a-e75fed3e4b2c';
+        $this->preBookCode = '1ab2da6b-e86c-4b21-a48a-68de64e884ef';
     }
 
     /**

@@ -136,9 +136,9 @@ class HotelApiClientTest extends TestCase
 
         $this->language = 'en';
         $this->currency = 'TWD';        
-        $this->checkInDate ='2019-03-01';
-        $this->checkOutDate ='2019-03-03';
-        $this->roomId = '12306181';
+        $this->checkInDate ='2019-06-01';
+        $this->checkOutDate ='2019-06-03';
+        $this->roomId = '23209972';
         $this->rooms = 1;
         $this->adults = 2;
         $this->children = 0;
@@ -147,7 +147,7 @@ class HotelApiClientTest extends TestCase
         $this->mealId = 1;
         $this->customerCountry = 'tw';
         $this->b2c = false;
-        $this->searchPrice ='71245';
+        $this->searchPrice ='74469';
 
         $this->hotelId = ''; //'126267';
         $this->roomtypeId ='';

@@ -204,8 +204,8 @@ class HotelApiClientTest extends TestCase
 
         $this->language = 'en';
         $this->currencies = 'TWD';        
-        $this->checkInDate ='2019-03-01';
-        $this->checkOutDate ='2019-03-03';
+        $this->checkInDate ='2019-06-01';
+        $this->checkOutDate ='2019-06-03';
         $this->numberOfRooms = 1;
         $this->destination = '';
         $this->destinationId = 552;
