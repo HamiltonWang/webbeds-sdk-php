@@ -92,13 +92,13 @@ class HotelApiClientTest extends TestCase
             null);
  
         $this->language = 'en';
-        $this->bookingId = 'SH6920416'; //SH6920416
+        $this->bookingId = ''; //SH6920416
         $this->reference = '';
         $this->createdDateFrom = '';
         $this->createdDateTo = '';
         
-        $this->arrivalDateFrom = '';//'2019-03-01';
-        $this->arrivalDateTo = '';//'2019-03-03';
+        $this->arrivalDateFrom = '2019-03-01';
+        $this->arrivalDateTo = '2019-03-03';
     }
 
     /**
@@ -158,13 +158,11 @@ class HotelApiClientTest extends TestCase
      */
     public function testMisc(GetBookingInfoResp $resp)
     {
-        echo $resp->bookings[0]->{'hotel.name'};
-
         $price = ($resp->bookings[0]->prices->price);
         //simplexml_tree($resp->bookings[0]->prices, true);
         foreach($price as $item)
         {
-            echo 'currency:' .(string)$item['currency'] .PHP_EOL;
+            echo PHP_EOL.'currency:' .(string)$item['currency'] .PHP_EOL;
             echo 'paymentMethods:' .(string)$item['paymentMethods'] .PHP_EOL;
             echo 'price:' .(string)$item .PHP_EOL;
         }
@@ -180,40 +178,42 @@ class HotelApiClientTest extends TestCase
      */
     public function testGetBookingInfoResp(GetBookingInfoResp $bookResp)
     {   
-        echo PHP_EOL.'======================== Booking result ===================='.PHP_EOL;
-        foreach ($bookResp->bookings->booking as $Id => $bookingData) {
-            echo "->bookingNumber:$bookingData->bookingnumber, hotelName:$bookingData->{'hotel.name'}, meal:$bookingData->meal ".PHP_EOL;
+        $bookings = $bookResp->bookings;
+        //simplexml_tree($bookings, true);
+
+        foreach ($bookings as $Id => $bookingData) {
+            echo PHP_EOL.'======================== Booking result ===================='.PHP_EOL;
+            $this->assertNotEmpty($bookingData->bookingnumber);
+
+            echo "->bookingNumber:$bookingData->bookingnumber, hotelName:". $bookingData->{'hotel.name'} .", meal:$bookingData->meal ".PHP_EOL;
             echo "->checkinDate:$bookingData->checkindate, checkoutDate:$bookingData->checkoutdate".PHP_EOL;
             echo "->currency:$bookingData->currency, bookedBy:$bookingData->bookedBy".PHP_EOL;
-            
-            foreach ($bookingData->cancellationPolicies->iterator() as $Id => $cxlPolicyData) {
-                echo "->cxlPolicy: deadline:$cxlPolicyData->deadline, percentage:$cxlPolicyData->percentage, text:$cxlPolicyData->text ".PHP_EOL;
+            echo "->meal:$bookingData->meal, mealLabel:". (string)$bookingData->mealLabel.PHP_EOL;
+
+            foreach ($bookingData->prices as $Id => $data) {
+                echo "-->price: :$data->price, currency:". $data->price['currency']." , paymentMethods:". $data->price['paymentMethods'] .PHP_EOL;
             }
-            foreach ($bookingData->hotelNotes->iterator() as $Id => $data) {
-                echo "->hotelNotes: startDate:$data->startDate, endDate:$data->endDate, text:$data->text ".PHP_EOL;
+
+            foreach ($bookingData->cancellationpolicies as $Id => $cxlPolicyData) {
+                echo "-->cxlPolicy: deadline:$cxlPolicyData->deadline, percentage:$cxlPolicyData->percentage, text:$cxlPolicyData->text ".PHP_EOL;
             }
-            foreach ($bookingData->englishHotelNotes->iterator() as $Id => $data) {
-                echo "->englishHotelNotes: startDate:$data->startDate, endDate:$data->endDate, text:$data->text ".PHP_EOL;
+            foreach ($bookingData->hotelNotes->hotelNote as $Id => $data) {
+                echo "->hotelNotes: startDate:".$data->attributes()->start_date.", endDate:".$data->attributes()->end_date.", text:$data->text ".PHP_EOL;
             }
-            foreach ($bookingData->roomNotes->iterator() as $Id => $data) {
-                echo "->roomNotes: startDate:$data->startDate, endDate:$data->endDate, text:$data->text ".PHP_EOL;
+            foreach ($bookingData->englishHotelNotes->englishHotelNote as $Id => $data) {
+                echo "->englishHotelNotes: startDate:".$data->attributes()->start_date.", endDate:".$data->attributes()->end_date.", text:$data->text ".PHP_EOL;
             }
-            foreach ($bookingData->englishRoomNotes->iterator() as $Id => $data) {
-                echo "->englishRoomNotes: startDate:$data->startDate, endDate:$data->endDate, text:$data->text ".PHP_EOL;
+            foreach ($bookingData->roomNotes->roomNotes as $Id => $data) {
+                echo "->roomNotes: startDate:".$data->attributes()->start_date.", endDate:".$data->attributes()->end_date.", text:$data->text ".PHP_EOL;
             }
+            foreach ($bookingData->englishRoomNotes->englishRoomNote as $Id => $data) {
+                echo "->englishRoomNotes: startDate:".$data->attributes()->start_date.", endDate:".$data->attributes()->end_date.", text:$data->text ".PHP_EOL;
+            }
+            foreach ($bookingData->currentCancellationPolicyFee as $Id => $data) {
+                echo "-->fee: :$data->fee, currency:". $data->fee['currency'] .PHP_EOL;
+            }
+            echo "->invoiceref:$bookingData->invoiceref, bookingStatus:". (string)$bookingData->bookingStatus.PHP_EOL;
+            echo '======================== END ===================='.PHP_EOL;
         }
-        /*
-        foreach ($bookingData->hotelNotes->iterator() as $Id => $data) {
-            echo "->hotelNotes: startDate:$data->startDate, endDate:$data->endDate, text:$data->text ".PHP_EOL;
-        }
-        foreach ($bookingData->englishHotelNotes->iterator() as $Id => $data) {
-            echo "->englishHotelNotes: startDate:$data->startDate, endDate:$data->endDate, text:$data->text ".PHP_EOL;
-        }
-        foreach ($bookingData->roomNotes->iterator() as $Id => $data) {
-            echo "->roomNotes: startDate:$data->startDate, endDate:$data->endDate, text:$data->text ".PHP_EOL;
-        }
-        foreach ($bookingData->englishRoomNotes->iterator() as $Id => $data) {
-            echo "->englishRoomNotes: startDate:$data->startDate, endDate:$data->endDate, text:$data->text ".PHP_EOL;
-        }*/
     }
 }
