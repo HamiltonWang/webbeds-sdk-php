@@ -26,7 +26,7 @@ use webbeds\hotel_api_sdk\HotelApiClient;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
 use webbeds\hotel_api_sdk\messages\book\BookResp;
-use webbeds\hotel_api_sdk\model\Book;
+//use webbeds\hotel_api_sdk\model\Book;
 use PHPUnit\Framework\TestCase;
 
 class HotelApiClientTest extends TestCase
@@ -287,7 +287,7 @@ class HotelApiClientTest extends TestCase
      */
     public function testBookReq()
     {
-        $reqData = new \webbeds\hotel_api_sdk\helpers\Book\Book();
+        $reqData = new \webbeds\hotel_api_sdk\helpers\book\Book();
         
         $reqData->userName = $this->userName;
         $reqData->password = $this->password;

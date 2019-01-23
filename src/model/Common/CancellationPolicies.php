@@ -16,14 +16,14 @@ use webbeds\hotel_api_sdk\model\ApiModel;
  */
 class CancellationPolicies extends ApiModel
 {
-    public function __construct(array $data = null)
+    public function __construct(array $cancellationPolicies = null)
     {
         $this->validFields = [
-            "cancellationPolicy" => "array",
+            "cancellationPolicies" => "array",
         ];
 
-        if ($data !== null) {
-            $this->fields = $data;
+        if ($cancellationPolicies !== null) {
+            $this->fields['cancellationPolicies'] = $cancellationPolicies;
         }
     }
     /**
@@ -31,16 +31,16 @@ class CancellationPolicies extends ApiModel
      */
     public function iterator()
     {
-        if (isset($this->fields['cancellation_policy']) )
+        if (isset($this->fields['cancellationPolicies']) )
         {
             // make sure there is more than one item
-            if (array_key_exists("0", $this->fields['cancellation_policy'])) {
-                return new CancellationPolicyIterator($this->fields['cancellation_policy']);
+            if (array_key_exists("0", $this->fields['cancellationPolicies'])) {
+                return new CancellationPolicyIterator($this->fields['cancellationPolicies']);
             } else {
-                $item = $this->fields['cancellation_policy'];
-                $this->fields['cancellation_policy'] = [];
-                array_push($this->fields['cancellation_policy'], $item);
-                return new CancellationPolicyIterator($this->fields['cancellation_policy']);
+                $item = $this->fields['cancellationPolicies'];
+                $this->fields['cancellationPolicies'] = [];
+                array_push($this->fields['cancellationPolicies'], $item);
+                return new CancellationPolicyIterator($this->fields['cancellationPolicies']);
             }
             
         }

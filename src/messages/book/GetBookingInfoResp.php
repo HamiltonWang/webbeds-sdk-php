@@ -20,42 +20,54 @@
  * <http://www.gnu.org/licenses/lgpl-2.1.html>.
  * #L%
  */
-namespace webbeds\hotel_api_sdk\messages\search;
+namespace webbeds\hotel_api_sdk\messages\book;
 
 use webbeds\hotel_api_sdk\messages\baseClass\ApiResponse;
-use webbeds\hotel_api_sdk\model\BookHotelIterator;
+// use webbeds\hotel_api_sdk\model\book\Bookings;
 
 /**
- * Class BookResp
+ * Class GetBookingInfoResp
  * @package webbeds\hotel_api_sdk\messages
  * @property Book book used for hotel content
  */
-class BookResp extends ApiResponse
+class GetBookingInfoResp extends ApiResponse
 {
     /**
      * @param array $rsData Array of data response for book
      */
-    public function __construct(array $rsData)
+    public function __construct(\SimpleXMLElement $rsData)
     {
-        parent::__construct($rsData);
-        if (array_key_exists("hotels", $rsData)) {
-            $this->hotels = $rsData['hotels']['hotel'];
+        //simplexml_tree($rsData, true);
+        //if (array_key_exists("bookings", $rsData)) {
+        if (!isset($rsData[0]['ErrorType'])){
+            $this->bookings = $rsData->bookings->booking;
+            $this->error = NULL;
+        } else {
+            $this->error = $rsData[0]['Message'];
         }
+
+    }
+    /**
+     * @return bool Returns True when response language list is empty. False otherwise.
+     */
+    public function isError()
+    {
+        return (!is_null($this->error));
     }
     /**
      * @return bool Returns True when response language list is empty. False otherwise.
      */
     public function isEmpty()
     {
-        return (count( $this->hotels)=== 0);
+        return (count($this->bookings)=== 0);
     }
-
-    public function iterator()
+    
+    /**
+     * @return bool Returns True when response language list is empty. False otherwise.
+     */
+    public function RowCount()
     {
-        if ($this->hotels !== null)
-            
-            return new BookHotelIterator($this->hotels);
-        return new BookHotelIterator([]);
+        return count( $this->bookings->booking);
     }
 
     /**

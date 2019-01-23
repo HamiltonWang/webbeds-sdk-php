@@ -28,10 +28,10 @@ interface ApiCallTypes
 
     const PREBOOKV2 = "PreBookV2";
     const BOOK = "Book";
-    const CANCELBOOKING = "CancelBooking";
-    const GETBOOKINGINFORMATION = "GetBookingInformation";
-    const GETSPECIALREQUEST ="GetSpecialRequest";
-    const UPDATESPECIALREQUEST = "UpdateSpecialRequest";
+    const CANCEL_BOOKING = "CancelBooking";
+    const GET_BOOKING_INFORMATION = "GetBookingInformation";
+    const GET_SPECIAL_REQUEST ="GetSpecialRequest";
+    const UPDATE_SPECIALREQUEST = "UpdateSpecialRequest";
 
-    const ADDTRANSFER = "AddTransfer";
+    const ADD_TRANSFER = "AddTransfer";
 }

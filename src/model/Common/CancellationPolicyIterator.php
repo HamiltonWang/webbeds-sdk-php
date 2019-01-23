@@ -11,17 +11,17 @@ use webbeds\hotel_api_sdk\model\ApiModel;
 
 class CancellationPolicyIterator implements \Iterator
 {
-    private $cxl, $position = 0;
-    public function __construct(array $cxl)
+    private $cxls, $position = 0;
+    public function __construct(array $cxls)
     {
-        $this->cxl = $cxl;
-        //print_r($cxl);
+        $this->cxls = $cxls;
+        //print_r($cxls);
         
     }
     public function current()
     {
-        //print_r($this->cxl);
-        return new CancellationPolicy($this->cxl[$this->position]);
+        //print_r($this->cxls);
+        return new CancellationPolicy($this->cxls[$this->position]);
     }
     public function next()
     {
@@ -29,11 +29,11 @@ class CancellationPolicyIterator implements \Iterator
     }
     public function key()
     {
-        return $this->cxl[$this->position]['id'];
+        return $this->cxls[$this->position]['id'];
     }
     public function valid()
     {
-        return ( $this->position < count($this->cxl) );
+        return ( $this->position < count($this->cxls) );
     }
     public function rewind()
     {

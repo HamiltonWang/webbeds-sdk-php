@@ -8,13 +8,13 @@ namespace webbeds\hotel_api_sdk\helpers\book;
 
 use webbeds\hotel_api_sdk\helpers\ApiHelper;
 /**
- * Class Book
+ * Class GetBookingInfo
  * @package webbeds\hotel_api_sdk\helpers
 */
-class Book extends ApiHelper
+class GetBookingInfo extends ApiHelper
 {
     /**
-     * Book constructor.
+     * GetBookingInfo constructor.
      */
     public function __construct()
     {
@@ -25,9 +25,9 @@ class Book extends ApiHelper
             "bookingID" => "string",
             "reference" => "string",
             "createdDateFrom" => "string",
-            "createdDateTo" => "integer",
+            "createdDateTo" => "string",
             "arrivalDateFrom" => "string",
-            "arrivalDateTo" => "integer"
+            "arrivalDateTo" => "string"
         ];
     }
 }

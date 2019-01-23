@@ -29,6 +29,7 @@ use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
 use webbeds\hotel_api_sdk\types\HotelSDKException;
 use webbeds\hotel_api_sdk\messages\baseClass\ApiRequest;
+use webbeds\hotel_api_sdk\utility\UtilityHelper;
 
 use Zend\Http\Client;
 use Zend\Http\Request;
@@ -177,79 +178,19 @@ class HotelApiClient
     {
         $sdkClassResp = "webbeds\\hotel_api_sdk\\messages\\".$this->lib."\\".$sdkMethod."Resp";
         //print_r($xml_string);
-        $array = $this->ConvertXMLToArray2($xml_string);
+        $array = UtilityHelper::ConvertXMLToArray2($xml_string);
 
         return new $sdkClassResp($array);
     }
     
     /**
-     * @return array ConvertSimpleXMLToNative convert XML Object to Native format
+     * @return array ConvertSimpleXMLToArray convert XML Object to Native format
      */
-    public function ConvertSimpleXMLToNative($xml_string, $sdkMethod)
+    public function ConvertSimpleXMLToArray(\SimpleXMLElement $xml_string, $sdkMethod)
     {
         $sdkClassResp = "webbeds\\hotel_api_sdk\\messages\\".$this->lib."\\".$sdkMethod."Resp";
-        $data = $this->ConvertXMLToJson($xml_string);
-        //print_r($data);
-        return new $sdkClassResp($data);
-    }
-
-    /**
-     * @return array ConvertXMLToJson convert SimpleXMLElement Object to JSON format
-     */
-    public function ConvertXMLToJson($xml_string)
-    {
-        $json = json_encode( $xml_string );
-
-        return $json;
-    }
-
-    /**
-     * @return array ConvertXMLToArray convert XMl Object to Array format
-     */
-    public function ConvertXMLToArray($xml_string)
-    {
-        // sample
-        //echo '--> acccessing data' .(string)$xml_string->languages->language[0]->asXml();
-        //echo '--> array inside(before):';
-        //print_r( $xml_string);
-        $result = toArray ($xml_string);
-        //echo '--> array inside(after):';
-        //print_r($result);
-        return $result;
-    }
-
-    /**
-     * @return array ConvertXMLToArray2 convert XMl Object to Array format
-     */
-    public function ConvertXMLToArray2($xml_string)
-    {
-
-        $json = json_encode( $xml_string );
-        $array = json_decode($json, TRUE);
-        //echo $xml_string;
-
-        return $array;
-    }
-
-    private function toArray(\SimpleXMLElement $xml) {
-        
-        $array = (array)$xml;
-        //echo 'to array:';
-        //print_r( $array);
-        foreach ( array_slice($array, 0) as $key => $value ) {
-            if ( $value instanceof SimpleXMLElement ) {
-                $array[$key] = empty($value) ? NULL : $this->toArray($value);
-            }
-        }
-        return $array;
-    }
-
-    function xml2array ( $xmlObject, $out = array () )
-    {
-        foreach ( (array) $xmlObject as $index => $node )
-            $out[$index] = ( is_object ( $node ) ) ? $this->xml2array ( $node ) : $node;
-
-        return $out;
+        //$data = UtilityHelper::XMLtoArray($xml_string);
+        return new $sdkClassResp($xml_string);
     }
 
     /**
