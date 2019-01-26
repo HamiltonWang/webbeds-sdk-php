@@ -25,7 +25,7 @@
 use webbeds\hotel_api_sdk\HotelApiClient;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
-use webbeds\hotel_api_sdk\messages\book\GetBookingInfoResp;
+use webbeds\hotel_api_sdk\messages\book\CancelBookingResp;
 
 use PHPUnit\Framework\TestCase;
 
@@ -51,26 +51,6 @@ class HotelApiClientTest extends TestCase
      * @var string bookingId is the booked order's ID
      */
     private $bookingId;
-    /**
-     * @var string reference is your reference from yoiur system
-     */
-    private $reference;
-    /**
-     * @var string createdDateFrom createdDateFrom to start checking-in
-     */
-    private $createdDateFrom;
-    /**
-     * @var string createdDateTo createdDateTo is the range to when order were created
-     */
-    private $createdDateTo;
-    /**
-     * @var string arrivalDateFrom 
-     */
-    private $arrivalDateFrom;
-    /**
-     * @var string arrivalDateTo
-     */
-    private $arrivalDateTo;
 
     protected function setUp()
     {
@@ -92,33 +72,22 @@ class HotelApiClientTest extends TestCase
             null);
  
         $this->language = 'en';
-        $this->bookingId = ''; //SH6920416
-        $this->reference = '';
-        $this->createdDateFrom = '';
-        $this->createdDateTo = '';
-        
-        $this->arrivalDateFrom = '2019-03-01';
-        $this->arrivalDateTo = '2019-03-03';
+        $this->bookingId = 'SH6956578'; //SH6920416
     }
 
     /**
      * API Hotel Method test
      */
-    public function testGetBookingInfoReq()
+    public function testCancelBookingReq()
     {
-        $reqData = new \webbeds\hotel_api_sdk\helpers\book\GetBookingInfo();
+        $reqData = new \webbeds\hotel_api_sdk\helpers\book\CancelBooking();
         
         $reqData->userName = $this->userName;
         $reqData->password = $this->password;
         $reqData->language = $this->language;           
         $reqData->bookingID = $this->bookingId;   
-        $reqData->reference = $this->reference;
-        $reqData->createdDateFrom = $this->createdDateFrom;
-        $reqData->createdDateTo = $this->createdDateTo;
-        $reqData->arrivalDateFrom = $this->arrivalDateFrom;
-        $reqData->arrivalDateTo = $this->arrivalDateTo;
 
-        $resp = $this->apiClient->GetBookingInfo($reqData);
+        $resp = $this->apiClient->CancelBooking($reqData);
 
         $this->assertNotEmpty($resp);
         
@@ -128,55 +97,33 @@ class HotelApiClientTest extends TestCase
     /**
      * Testing BookResp results of Book method
      *
-     * @depends testGetBookingInfoReq
+     * @depends testCancelBookingReq
      */
-    public function testGetBookingInfoXMLResp(\SimpleXMLElement $xmlResp)
+    public function testCancelBookingXMLResp(\SimpleXMLElement $xmlResp)
     {
-        //simplexml_tree($xmlResp, true);
-        $native = $this->apiClient->ConvertSimpleXMLToArray($xmlResp, "GetBookingInfo");
-        $this->assertEquals(get_class($native), "webbeds\\hotel_api_sdk\\messages\\$this->lib\\GetBookingInfoResp");
+        $native = $this->apiClient->ConvertSimpleXMLToArray($xmlResp, "CancelBooking");
+        $this->assertEquals(get_class($native), "webbeds\\hotel_api_sdk\\messages\\$this->lib\\CancelBookingResp");
         return $native;
     }
     /**
      * Testing Error 
      *
-     * @depends testGetBookingInfoXMLResp
+     * @depends testCancelBookingXMLResp
      */
-    public function testError(GetBookingInfoResp $getBookingInfoResp)
+    public function testError(CancelBookingResp $cancelBookingResp)
     {
-        $this->assertFalse($getBookingInfoResp->isError(), "Response has error! Message: $getBookingInfoResp->error");
-        $this->assertFalse($getBookingInfoResp->isEmpty(), "Response is empty! Message: $getBookingInfoResp->error");
+        $this->assertFalse($cancelBookingResp->isError(), "Response has error! Message: $cancelBookingResp->error");
 
-        //simplexml_tree($getBookingInfoResp->bookings, true);
-        return $getBookingInfoResp;
+        simplexml_tree($cancelBookingResp->result, true);
+        return $cancelBookingResp;
     }
 
     /**
-     * Testing Error 
+     * Testing CancelBookingResp results of CancelBooking method
      *
      * @depends testError
      */
-    public function testMisc(GetBookingInfoResp $resp)
-    {
-        $price = ($resp->bookings[0]->prices->price);
-        //simplexml_tree($resp->bookings[0]->prices, true);
-        foreach($price as $item)
-        {
-            echo PHP_EOL.'currency:' .(string)$item['currency'] .PHP_EOL;
-            echo 'paymentMethods:' .(string)$item['paymentMethods'] .PHP_EOL;
-            echo 'price:' .(string)$item .PHP_EOL;
-        }
-
-        $this->assertNotEmpty($price);
-        return $resp;
-    }
-
-    /**
-     * Testing GetBookingInfoResp results of GetBookingInfo method
-     *
-     * @depends testError
-     */
-    public function testGetBookingInfoResp(GetBookingInfoResp $bookResp)
+    public function testCancelBookingResp(CancelBookingResp $bookResp)
     {   
         $bookings = $bookResp->bookings;
         //simplexml_tree($bookings, true);
