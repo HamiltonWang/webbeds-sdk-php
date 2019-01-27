@@ -302,11 +302,7 @@ class HotelApiClientTest extends TestCase
      */
     public function testHotelXMLResp(SimpleXMLElement $xmlResp)
     {
-        //print_r( $this->apiClient->ConvertXMLToArray($xmlResp) );
-        //print_r( $this->apiClient->ConvertXMLToNative($resp, "Search") );
-        //print_r($xmlResp);
-
-        //$this->assertEquals((string)$xmlResp->hotels->hotel[0]->name, "6 Wilkes Barre Motel");
+        //simplexml_tree($xmlResp, true);
         $native = $this->apiClient->ConvertXMLToNative($xmlResp, "Search");
 
         $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\search\SearchResp");
