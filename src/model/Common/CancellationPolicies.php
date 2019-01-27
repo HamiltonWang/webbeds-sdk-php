@@ -33,11 +33,17 @@ class CancellationPolicies extends ApiModel
     {
         if (isset($this->fields['cancellationPolicies']) )
         {
+            $key = 0;
             // make sure there is more than one item
             if (array_key_exists("0", $this->fields['cancellationPolicies'])) {
+                foreach ($this->fields['cancellationPolicies'] as &$cancellationPolicy) {
+                    $cancellationPolicy['id'] = $key;
+                    $key++;
+                }
                 return new CancellationPolicyIterator($this->fields['cancellationPolicies']);
             } else {
                 $item = $this->fields['cancellationPolicies'];
+                $item['id'] = $key;
                 $this->fields['cancellationPolicies'] = [];
                 array_push($this->fields['cancellationPolicies'], $item);
                 return new CancellationPolicyIterator($this->fields['cancellationPolicies']);
