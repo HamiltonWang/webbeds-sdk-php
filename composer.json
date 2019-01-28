@@ -7,7 +7,7 @@
         "zendframework/zend-http": "^2.5",
         "zendframework/zend-json": "^2.5",
         "nicmart/string-template": "v0.1.0",
-        "zendframework/zend-config": "^2.4.*"
+        "zendframework/zend-config": "^2.4.1"
     },
     "require-dev": {
         "php": ">= 5.2 <7.2",
