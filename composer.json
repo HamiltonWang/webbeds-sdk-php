@@ -5,14 +5,14 @@
     "require": {
         "php": ">= 5.2 <7.2",
         "zendframework/zend-http": "^2.4",
-        "zendframework/zend-json": "^2.5",
+        "zendframework/zend-json": "^2.4",
         "nicmart/string-template": "v0.1.0",
         "zendframework/zend-config": "^2.4.1"
     },
     "require-dev": {
         "php": ">= 5.2 <7.2",
         "zendframework/zend-http": "^2.4",
-        "zendframework/zend-json": "^2.5",
+        "zendframework/zend-json": "^2.4",
         "phpdocumentor/phpdocumentor": "2.*",
         "phpunit/phpunit": "7.1",
         "imsop/simplexml_debug": "^1.0"
