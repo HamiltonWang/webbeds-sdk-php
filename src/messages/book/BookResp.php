@@ -196,6 +196,7 @@ class BookResp extends ApiResponse
             $this->checkoutDate = $this->booking['checkoutdate'];
             // TODO: enable to be parsed properly
             //$this->prices = new Prices ($this->booking['prices']['price']);
+            simplexml_tree($this->booking['prices'], true);
             $this->prices = json_encode($this->booking['prices']['price']);
 
             $this->currency = $this->booking['currency'];

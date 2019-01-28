@@ -72,7 +72,7 @@ class HotelApiClientTest extends TestCase
             null);
  
         $this->language = 'en';
-        $this->bookingId = 'SH6981148'; //SH6920416
+        $this->bookingId = 'SH6981556'; //SH6920416
     }
 
     /**

@@ -97,8 +97,8 @@ class HotelApiClientTest extends TestCase
         $this->createdDateFrom = '';
         $this->createdDateTo = '';
         
-        $this->arrivalDateFrom = '2019-03-01';
-        $this->arrivalDateTo = '2019-03-03';
+        $this->arrivalDateFrom = '2019-06-01';
+        $this->arrivalDateTo = '2019-06-03';
     }
 
     /**
@@ -179,7 +179,7 @@ class HotelApiClientTest extends TestCase
     public function testGetBookingInfoResp(GetBookingInfoResp $bookResp)
     {   
         $bookings = $bookResp->bookings;
-        //simplexml_tree($bookings, true);
+        simplexml_tree($bookings, true);
 
         foreach ($bookings as $Id => $bookingData) {
             echo PHP_EOL.'======================== Booking result ===================='.PHP_EOL;
@@ -189,6 +189,7 @@ class HotelApiClientTest extends TestCase
             echo "->checkinDate:$bookingData->checkindate, checkoutDate:$bookingData->checkoutdate".PHP_EOL;
             echo "->currency:$bookingData->currency, bookedBy:$bookingData->bookedBy".PHP_EOL;
             echo "->meal:$bookingData->meal, mealLabel:". (string)$bookingData->mealLabel.PHP_EOL;
+            echo "->bookingdate:$bookingData->bookingdate, bookingdate.timezone:". (string)$bookingData->{'bookingdate.timezone'}.PHP_EOL;
 
             foreach ($bookingData->prices as $Id => $data) {
                 echo "-->price: :$data->price, currency:". $data->price['currency']." , paymentMethods:". $data->price['paymentMethods'] .PHP_EOL;
@@ -209,8 +210,11 @@ class HotelApiClientTest extends TestCase
             foreach ($bookingData->englishRoomNotes->englishRoomNote as $Id => $data) {
                 echo "->englishRoomNotes: startDate:".$data->attributes()->start_date.", endDate:".$data->attributes()->end_date.", text:$data->text ".PHP_EOL;
             }
+            foreach ($bookingData->currentCancellationPolicyDeadline as $Id => $cxlPolicyData) {
+                echo "-->currentCancellationPolicyDeadline: deadline:".$cxlPolicyData .PHP_EOL;
+            }
             foreach ($bookingData->currentCancellationPolicyFee as $Id => $data) {
-                echo "-->fee: :$data->fee, currency:". $data->fee['currency'] .PHP_EOL;
+                echo "-->Cancellation fee: :$data->fee, currency:". $data->fee['currency'] .PHP_EOL;
             }
             echo "->invoiceref:$bookingData->invoiceref, bookingStatus:". (string)$bookingData->bookingStatus.PHP_EOL;
             echo '======================== END ===================='.PHP_EOL;
