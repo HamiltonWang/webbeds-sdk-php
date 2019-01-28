@@ -19,10 +19,8 @@ class Bookings extends ApiModel
 {
     public function __construct(\SimpleXMLElement $bookings = null)
     {
-        echo "fffff";
-        print_r(UtilityHelper::XMLtoArray($bookings));
-        //simplexml_tree($bookings[0], true);
-        
+        //print_r(UtilityHelper::XMLtoArray($bookings));
+        //simplexml_tree($bookings[0], true);   
         
         $this->validFields = [
             "bookings" => "array",

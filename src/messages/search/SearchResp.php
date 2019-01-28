@@ -35,11 +35,13 @@ class SearchResp extends ApiResponse
     /**
      * @param array $rsData Array of data response for search
      */
-    public function __construct(array $rsData)
+    public function __construct(\SimpleXMLElement $rsData=null)
     {
-        parent::__construct($rsData);
-        if (array_key_exists("hotels", $rsData)) {
-            $this->hotels = $rsData['hotels']['hotel'];
+        if (!isset($rsData->Error->ErrorType)){
+            $this->hotels = $rsData;
+            $this->error = NULL;
+        } else {
+            $this->error = $rsData->Error->Message;
         }
     }
     /**

@@ -38,7 +38,6 @@ class GetBookingInfoResp extends ApiResponse
     public function __construct(\SimpleXMLElement $rsData)
     {
         //simplexml_tree($rsData, true);
-        //if (array_key_exists("bookings", $rsData)) {
         if (!isset($rsData[0]['ErrorType'])){
             $this->bookings = $rsData->bookings->booking;
             $this->error = NULL;

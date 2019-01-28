@@ -38,7 +38,6 @@ class CancelBookingResp extends ApiResponse
     public function __construct(\SimpleXMLElement $rsData)
     {
         //simplexml_tree($rsData, true);
-        //if (array_key_exists("bookings", $rsData)) {
         if (!isset($rsData->Error->ErrorType)){
             $this->result = $rsData;
             $this->error = NULL;

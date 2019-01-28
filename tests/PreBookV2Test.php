@@ -138,7 +138,7 @@ class HotelApiClientTest extends TestCase
         $this->currency = 'TWD';        
         $this->checkInDate ='2019-06-01';
         $this->checkOutDate ='2019-06-03';
-        $this->roomId = '28028057';
+        $this->roomId = '15148113';
         $this->rooms = 1;
         $this->adults = 2;
         $this->children = 0;
@@ -147,7 +147,7 @@ class HotelApiClientTest extends TestCase
         $this->mealId = 1;
         $this->customerCountry = 'tw';
         $this->b2c = false;
-        $this->searchPrice ='11705';
+        $this->searchPrice ='4661';
 
         $this->hotelId = ''; //'126267';
         $this->roomtypeId ='';
@@ -220,7 +220,7 @@ class HotelApiClientTest extends TestCase
         echo "adults:$this->adults, children:$this->children, childrenAges:$this->childrenAges, infant:$this->infant ".PHP_EOL;
         echo "mealId:$this->mealId, customerCountry:$this->customerCountry, b2c:" . ($this->b2c ? 1:0) .", searchPrice:$this->searchPrice ".PHP_EOL;
         echo "Response Output:";
-        echo "->preBookCode: $preBookV2Resp->preBookCode, price: $preBookV2Resp->price $preBookV2Resp->currency ".PHP_EOL;
+        echo "->preBookCode: '".$preBookV2Resp->preBookCode ."', price: $preBookV2Resp->price $preBookV2Resp->currency ".PHP_EOL;
         $priceBreakdown = $preBookV2Resp->priceBreakdowns;
 
         $this->assertNotEmpty($priceBreakdown);

@@ -211,7 +211,7 @@ class HotelApiClientTest extends TestCase
         $this->email = 'ccccc@aiart.io';
         $this->checkInDate ='2019-06-01';
         $this->checkOutDate ='2019-06-03';
-        $this->roomId = 28028057;
+        $this->roomId = 15148113;
         $this->rooms = 1;
         $this->adults = 2;
         $this->children = 0;
@@ -278,7 +278,7 @@ class HotelApiClientTest extends TestCase
         $this->commissionAmountInHotelCurrency = '';
         $this->customerCountry = 'tw';
         $this->b2c = '0';
-        $this->preBookCode = 'b597673a-8659-48e7-8fe2-f0428e6a0e37';
+        $this->preBookCode = 'c60905fc-dc86-4518-b9f1-cb1420e798e7';
     }
 
     /**

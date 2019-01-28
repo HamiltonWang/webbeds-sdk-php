@@ -208,8 +208,8 @@ class HotelApiClientTest extends TestCase
         $this->checkOutDate ='2019-06-03';
         $this->numberOfRooms = 1;
         $this->destination = '';
-        $this->destinationId = '';   // 552
-        $this->hotelIds = '126267'; //'126267';
+        $this->destinationId = '552';   // 552
+        $this->hotelIds = ''; //210192  ,  '126267';
         $this->resortIds = ''; //'126267';
         $this->accommodationTypes = '';
         
@@ -222,7 +222,7 @@ class HotelApiClientTest extends TestCase
         $this->exactDestinationMatch = true;
         $this->blockSuperdeal = false;
         $this->mealIds = '';
-        $this->showCoordinates = '1';
+        $this->showCoordinates = '';
         $this->showReviews = '';
         $this->referencePointLatitude = '';
         $this->referencePointLongitude = '';
@@ -303,7 +303,7 @@ class HotelApiClientTest extends TestCase
     public function testHotelXMLResp(SimpleXMLElement $xmlResp)
     {
         //simplexml_tree($xmlResp, true);
-        $native = $this->apiClient->ConvertXMLToNative($xmlResp, "Search");
+        $native = $this->apiClient->ConvertSimpleXMLToArray($xmlResp, "Search");
 
         $this->assertEquals(get_class($native), "webbeds\hotel_api_sdk\messages\search\SearchResp");
         return $native;
@@ -321,29 +321,35 @@ class HotelApiClientTest extends TestCase
         
         echo PHP_EOL."Checkin Date: $this->checkInDate ~ $this->checkOutDate ".PHP_EOL;
         foreach ($searchResp->iterator() as $hotelId => $hotelData) {
-            echo "\r\n ->hotel: $hotelData->hotelId , $hotelData->destinationId  ".PHP_EOL;
+            echo PHP_EOL."->hotel: $hotelData->hotelId , $hotelData->destinationId  ".PHP_EOL;
 
-            foreach($hotelData->roomTypes->iterator() as $id => $hotelRoomTypeData) {
-                echo "-->hotelRoomType:: $hotelRoomTypeData->roomTypeId ".PHP_EOL;
+            foreach($hotelData->roomTypes->roomtype as $id => $hotelRoomTypeData) {
+                echo "-->hotelRoomType:: ".$hotelRoomTypeData->{'roomtype.ID'}.PHP_EOL;
                 
-                foreach($hotelRoomTypeData->rooms->iterator() as $id => $roomData) {
-                    echo "--->roomType:: id: $roomData->id , beds: $roomData->beds ".PHP_EOL;
-
-                    foreach($roomData->meals->iterator() as $id => $mealData) {
-                        echo "---->meals:: id: $mealData->id  ".PHP_EOL;
-                        echo "----->price:: price: $mealData->price,  discount: $mealData->discount ".PHP_EOL;
-
-                        //foreach($mealData->prices->iterator() as $id => $priceData) {
-                        //    echo "----->prices:: price: $priceData->price  $priceData->currency (paymentMethods: $mealData->paymentMethods) ".PHP_EOL;
-                        //}
+                foreach($hotelRoomTypeData->rooms->room as $id => $roomData) {
+                    echo "--->roomType:: id: ".$roomData->id ." , beds: ". $roomData->beds .PHP_EOL;
+                    //simplexml_tree($roomData, true);
+                    foreach($roomData->meals->meal as $id => $mealData) {
+                        echo "---->meals:: id: ". $mealData->id . ", labelId:" . (string)$mealData->labelId .PHP_EOL;
+                        foreach($mealData->prices->price as $id => $priceData) {
+                            echo "----->priceData:: price:". $priceData." ".$priceData['currency'].", paymentMethod:".$priceData['paymentMethods'].PHP_EOL ;
+                        }
                     }
 
-                    foreach($roomData->cancellationPolicies->iterator() as $id => $cxlPolicyData) {
+                    foreach($roomData->cancellation_policies->cancellation_policy as $id => $cxlPolicyData) {
                         echo "---->cxlPolicy:: deadline: $cxlPolicyData->deadline, percentage: $cxlPolicyData->percentage ".PHP_EOL;
                     }
 
-                    foreach($roomData->paymentMethods->iterator() as $id => $paymentMethodData) {
-                        echo "---->paymentMethods:: id: $paymentMethodData->id ".PHP_EOL;
+                    // TODO: no sample data found yet
+                    foreach($roomData->notes->note as $id => $noteData) {
+                        echo "---->notes::" . $noteData .PHP_EOL;
+                    }
+                    echo "---->isSuperDeal::" . $roomData->isSuperDeal .PHP_EOL;
+                    echo "---->isBestBuy::" . $roomData->isBestBuy .PHP_EOL;
+                    
+                    foreach($roomData->paymentMethods->paymentMethod as $id => $paymentMethodData) {
+                        
+                        echo "----->paymentMethods:: id:". $paymentMethodData['id'].PHP_EOL;
                     }
                 }
             }
