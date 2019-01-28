@@ -72,7 +72,7 @@ class HotelApiClientTest extends TestCase
             null);
  
         $this->language = 'en';
-        $this->bookingId = 'SH6956578'; //SH6920416
+        $this->bookingId = 'SH6981148'; //SH6920416
     }
 
     /**
@@ -88,6 +88,10 @@ class HotelApiClientTest extends TestCase
         $reqData->bookingID = $this->bookingId;   
 
         $resp = $this->apiClient->CancelBooking($reqData);
+
+        file_put_contents(__DIR__ . '/cancelResp.xml', $resp->asXML());
+        //file_put_contents(__DIR__ . '/cancelResp_cancelled.xml', $resp->asXML());
+        $resp = simplexml_load_string( file_get_contents(__DIR__ . '/cancelResp.xml'));
 
         $this->assertNotEmpty($resp);
         
@@ -112,9 +116,7 @@ class HotelApiClientTest extends TestCase
      */
     public function testError(CancelBookingResp $cancelBookingResp)
     {
-        $this->assertFalse($cancelBookingResp->isError(), "Response has error! Message: $cancelBookingResp->error");
-
-        simplexml_tree($cancelBookingResp->result, true);
+        $this->assertFalse($cancelBookingResp->isError(), "Response has error! Message: $cancelBookingResp->error"); 
         return $cancelBookingResp;
     }
 
@@ -123,44 +125,30 @@ class HotelApiClientTest extends TestCase
      *
      * @depends testError
      */
-    public function testCancelBookingResp(CancelBookingResp $bookResp)
+    public function testCancelBookingResp(CancelBookingResp $cancelBookResp)
     {   
-        $bookings = $bookResp->bookings;
-        //simplexml_tree($bookings, true);
-
-        foreach ($bookings as $Id => $bookingData) {
-            echo PHP_EOL.'======================== Booking result ===================='.PHP_EOL;
-            $this->assertNotEmpty($bookingData->bookingnumber);
-
-            echo "->bookingNumber:$bookingData->bookingnumber, hotelName:". $bookingData->{'hotel.name'} .", meal:$bookingData->meal ".PHP_EOL;
-            echo "->checkinDate:$bookingData->checkindate, checkoutDate:$bookingData->checkoutdate".PHP_EOL;
-            echo "->currency:$bookingData->currency, bookedBy:$bookingData->bookedBy".PHP_EOL;
-            echo "->meal:$bookingData->meal, mealLabel:". (string)$bookingData->mealLabel.PHP_EOL;
-
-            foreach ($bookingData->prices as $Id => $data) {
-                echo "-->price: :$data->price, currency:". $data->price['currency']." , paymentMethods:". $data->price['paymentMethods'] .PHP_EOL;
+        $cancelBooking = $cancelBookResp->result;
+        //simplexml_tree($cancelBooking, true);
+        $this->assertNotEmpty($cancelBooking);
+        echo PHP_EOL.'======================== Cancellation result ===================='.PHP_EOL;
+        echo "->Code:" . $cancelBooking->Code .PHP_EOL;
+        $cancellationPaymentMethod = $cancelBooking->CancellationPaymentMethod;
+        foreach ($cancellationPaymentMethod as $Id => $cancellationPaymentMethodData) {
+            $cancellationfee = $cancellationPaymentMethodData->cancellationfee;
+            foreach ($cancellationfee as $Id => $cxlFeeData) {
+                echo "-->fee:" . $cxlFeeData['currency'] . $cxlFeeData.PHP_EOL;
             }
 
-            foreach ($bookingData->cancellationpolicies as $Id => $cxlPolicyData) {
-                echo "-->cxlPolicy: deadline:$cxlPolicyData->deadline, percentage:$cxlPolicyData->percentage, text:$cxlPolicyData->text ".PHP_EOL;
+            $cancellationPolicy = $cancellationPaymentMethodData->cancellation;
+            simplexml_tree($cancellationPolicy);
+            echo "-->cancellation Type:" . $cancellationPolicy->cancellation['type'] .PHP_EOL;
+            foreach ($cancellationPaymentMethodData->activecancellationpolicy as $Id => $activecancellationpolicyData) {
+                echo "--->deadline:" . $activecancellationpolicyData->deadline .", percentage:". $activecancellationpolicyData->percentage .PHP_EOL;
             }
-            foreach ($bookingData->hotelNotes->hotelNote as $Id => $data) {
-                echo "->hotelNotes: startDate:".$data->attributes()->start_date.", endDate:".$data->attributes()->end_date.", text:$data->text ".PHP_EOL;
-            }
-            foreach ($bookingData->englishHotelNotes->englishHotelNote as $Id => $data) {
-                echo "->englishHotelNotes: startDate:".$data->attributes()->start_date.", endDate:".$data->attributes()->end_date.", text:$data->text ".PHP_EOL;
-            }
-            foreach ($bookingData->roomNotes->roomNotes as $Id => $data) {
-                echo "->roomNotes: startDate:".$data->attributes()->start_date.", endDate:".$data->attributes()->end_date.", text:$data->text ".PHP_EOL;
-            }
-            foreach ($bookingData->englishRoomNotes->englishRoomNote as $Id => $data) {
-                echo "->englishRoomNotes: startDate:".$data->attributes()->start_date.", endDate:".$data->attributes()->end_date.", text:$data->text ".PHP_EOL;
-            }
-            foreach ($bookingData->currentCancellationPolicyFee as $Id => $data) {
-                echo "-->fee: :$data->fee, currency:". $data->fee['currency'] .PHP_EOL;
-            }
-            echo "->invoiceref:$bookingData->invoiceref, bookingStatus:". (string)$bookingData->bookingStatus.PHP_EOL;
+    
             echo '======================== END ===================='.PHP_EOL;
+    
         }
+
     }
 }

@@ -144,11 +144,11 @@ class HotelApiClientTest extends TestCase
         $this->assertFalse($getDestinationsResp->isEmpty(), "Response is empty!");
         $this->assertEquals($getDestinationsResp->iterator()->current()->destinationName, "Hsinchu");
         
-        /*
+        
         echo "".PHP_EOL;
         foreach ($getDestinationsResp->iterator() as $destination_id => $destinationData) {
             echo $destinationData->destination_id . ', '.$destinationData->destinationCode . ', '.$destinationData->destinationCode2 . ', '.$destinationData->destinationCode3 . ', '.$destinationData->destinationCode4. ', ';
             echo $destinationData->destinationName . ', ' .$destinationData->countryId  . ', ' .$destinationData->countryName  . ', ' .$destinationData->countryCode  . ', ' .$destinationData->timeZone .PHP_EOL;
-        }*/
+        }
     }
 }

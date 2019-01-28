@@ -208,8 +208,8 @@ class HotelApiClientTest extends TestCase
         $this->checkOutDate ='2019-06-03';
         $this->numberOfRooms = 1;
         $this->destination = '';
-        $this->destinationId = 552;
-        $this->hotelIds = ''; //'126267';
+        $this->destinationId = '';   // 552
+        $this->hotelIds = '126267'; //'126267';
         $this->resortIds = ''; //'126267';
         $this->accommodationTypes = '';
         
@@ -319,7 +319,7 @@ class HotelApiClientTest extends TestCase
         // Check is response is empty or not
         $this->assertFalse($searchResp->isEmpty(), "Response is empty!");
         
-        echo "Checkin Date: $this->checkInDate ~ $this->checkOutDate ".PHP_EOL;
+        echo PHP_EOL."Checkin Date: $this->checkInDate ~ $this->checkOutDate ".PHP_EOL;
         foreach ($searchResp->iterator() as $hotelId => $hotelData) {
             echo "\r\n ->hotel: $hotelData->hotelId , $hotelData->destinationId  ".PHP_EOL;
 

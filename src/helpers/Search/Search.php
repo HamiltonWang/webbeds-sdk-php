@@ -27,7 +27,7 @@ class Search extends ApiHelper
             "checkOutDate" => "string",
             "numberOfRooms" => "integer",
             "destination" => "string",
-            "destinationId" => "integer",
+            "destinationId" => "string",
             "hotelIds" => "string",
             "resortIds" => "string",
             "accommodationTypes" => "string",

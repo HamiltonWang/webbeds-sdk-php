@@ -26,7 +26,6 @@ use webbeds\hotel_api_sdk\HotelApiClient;
 use webbeds\hotel_api_sdk\types\ApiVersion;
 use webbeds\hotel_api_sdk\types\ApiVersions;
 use webbeds\hotel_api_sdk\messages\book\BookResp;
-//use webbeds\hotel_api_sdk\model\Book;
 use PHPUnit\Framework\TestCase;
 
 class HotelApiClientTest extends TestCase
@@ -212,7 +211,7 @@ class HotelApiClientTest extends TestCase
         $this->email = 'ccccc@aiart.io';
         $this->checkInDate ='2019-06-01';
         $this->checkOutDate ='2019-06-03';
-        $this->roomId = 23209972;
+        $this->roomId = 28028057;
         $this->rooms = 1;
         $this->adults = 2;
         $this->children = 0;
@@ -279,7 +278,7 @@ class HotelApiClientTest extends TestCase
         $this->commissionAmountInHotelCurrency = '';
         $this->customerCountry = 'tw';
         $this->b2c = '0';
-        $this->preBookCode = '1ab2da6b-e86c-4b21-a48a-68de64e884ef';
+        $this->preBookCode = 'b597673a-8659-48e7-8fe2-f0428e6a0e37';
     }
 
     /**

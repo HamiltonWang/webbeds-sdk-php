@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<result xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://book.fitruums.com/1/">
+  <Code>1</Code>
+  <CancellationPaymentMethod id="1" name="Invoice">
+    <cancellationfee currency="EUR">0.0000</cancellationfee>
+    <cancellationfee currency="TWD">0.0000</cancellationfee>
+    <cancellation type="Hotel">
+      <activecancellationpolicy>
+        <deadline xsi:nil="true"/>
+        <percentage>0</percentage>
+      </activecancellationpolicy>
+    </cancellation>
+  </CancellationPaymentMethod>
+</result>

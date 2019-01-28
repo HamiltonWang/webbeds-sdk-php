@@ -37,13 +37,13 @@ class CancelBookingResp extends ApiResponse
      */
     public function __construct(\SimpleXMLElement $rsData)
     {
-        simplexml_tree($rsData, true);
+        //simplexml_tree($rsData, true);
         //if (array_key_exists("bookings", $rsData)) {
-        if (!isset($rsData->result->Error->ErrorType)){
-            $this->result = $rsData->result;
+        if (!isset($rsData->Error->ErrorType)){
+            $this->result = $rsData;
             $this->error = NULL;
         } else {
-            $this->error = $rsData[0]['Message'];
+            $this->error = $rsData->Error->Message;
         }
 
     }
