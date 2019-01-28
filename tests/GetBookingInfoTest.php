@@ -192,9 +192,8 @@ class HotelApiClientTest extends TestCase
             echo "->bookingdate:$bookingData->bookingdate, bookingdate.timezone:". (string)$bookingData->{'bookingdate.timezone'}.PHP_EOL;
 
             foreach ($bookingData->prices as $Id => $data) {
-                echo "-->price: :$data->price, currency:". $data->price['currency']." , paymentMethods:". $data->price['paymentMethods'] .PHP_EOL;
+                echo "-->price:$data->price, currency:". $data->price['currency']." , paymentMethods:". $data->price['paymentMethods'] .PHP_EOL;
             }
-
             foreach ($bookingData->cancellationpolicies as $Id => $cxlPolicyData) {
                 echo "-->cxlPolicy: deadline:$cxlPolicyData->deadline, percentage:$cxlPolicyData->percentage, text:$cxlPolicyData->text ".PHP_EOL;
             }
