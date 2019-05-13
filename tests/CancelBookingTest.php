@@ -51,9 +51,14 @@ class HotelApiClientTest extends TestCase
      * @var string bookingId is the booked order's ID
      */
     private $bookingId;
+    /**
+     * @var bool lib using static or nonStatic, default to true
+     */
+    private $nonStatic;
 
     protected function setUp()
     {
+        $this->nonStatic = true;
         $this->lib = 'book';
         $reader = new Zend\Config\Reader\Ini();
         $commonConfig   = $reader->fromFile(__DIR__ . '/config/Common.ini');
@@ -68,6 +73,7 @@ class HotelApiClientTest extends TestCase
             $cfgApi["password"],
             new ApiVersion(ApiVersions::V1_0),
             $this->lib,
+            $nonStatic,
             $cfgUri["timeout"],
             null);
  

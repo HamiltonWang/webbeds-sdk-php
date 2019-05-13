@@ -83,7 +83,7 @@ class HotelApiClient
      * @param int $timeout HTTP Client timeout
      * @param string $adapter Customize adapter for http request
      */
-    public function __construct($url, $userName, $password, ApiVersion $version, $lib, $timeout=30, $adapter=null)
+    public function __construct($url, $userName, $password, ApiVersion $version, $lib, $nonStatic = true, $timeout=30, $adapter=null)
     {
         $this->lastRequest = null;
         $this->userName = trim($userName);
@@ -102,7 +102,7 @@ class HotelApiClient
         }
         UriFactory::registerScheme("https","webbeds\\hotel_api_sdk\\types\\ApiUri");
         $this->apiUri = UriFactory::factory($url);
-        $this->apiUri->prepare($version, $lib);
+        $this->apiUri->prepare($version, $lib, $nonStatic);
     }
 
     /**

@@ -31,13 +31,13 @@ class ApiUri extends Http
      * Prepare URL for the operation
      * @param ApiVersion $version Version of API used for client
      */
-    public function prepare(ApiVersion $version, string $lib)
+    public function prepare(ApiVersion $version, string $lib, bool $nonStatic = true)
     {
         $strSubs = new StringTemplate\Engine;
         
         if ($lib == 'search') {
             //NonStaticXMLAPI.asmx
-            $libPath = 'NonStaticXMLAPI.asmx';
+            $libPath = $nonStatic? 'NonStaticXMLAPI.asmx' : 'StaticXMLAPI.asmx';
         } 
         if ($lib == 'book') {
             // Booking.asmx

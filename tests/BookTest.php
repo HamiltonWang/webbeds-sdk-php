@@ -186,10 +186,15 @@ class HotelApiClientTest extends TestCase
      * @var string lib search api or book api
      */
     private $lib;
+    /**
+     * @var bool lib using static or nonStatic, default to true
+     */
+    private $nonStatic;
 
     protected function setUp()
     {
         $this->lib = 'book';
+        $this->nonStatic = true;
         $reader = new Zend\Config\Reader\Ini();
         $commonConfig   = $reader->fromFile(__DIR__ . '/config/Common.ini');
         $currentEnvironment = $commonConfig["environment"]? $commonConfig["environment"]: "DEFAULT";
@@ -203,6 +208,7 @@ class HotelApiClientTest extends TestCase
             $cfgApi["password"],
             new ApiVersion(ApiVersions::V1_0),
             $this->lib,
+            $this->nonStatic,
             $cfgUri["timeout"],
             null);
 
