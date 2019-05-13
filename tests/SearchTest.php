@@ -183,9 +183,14 @@ class HotelApiClientTest extends TestCase
      * @var boolean b2c Whether or not the client derives from a B2C/non-package point of sales.
      */
     private $b2c;
+    /**
+     * @var bool lib using static or nonStatic, default to true
+     */
+    private $nonStatic;
 
     protected function setUp()
     {
+        $this->nonStatic = true;
         $reader = new Zend\Config\Reader\Ini();
         $commonConfig   = $reader->fromFile(__DIR__ . '/config/Common.ini');
         $currentEnvironment = $commonConfig["environment"]? $commonConfig["environment"]: "DEFAULT";
@@ -199,6 +204,7 @@ class HotelApiClientTest extends TestCase
             $cfgApi["password"],
             new ApiVersion(ApiVersions::V1_0),
             "search",
+            $this->nonStatic,
             $cfgUri["timeout"],
             null);
 
