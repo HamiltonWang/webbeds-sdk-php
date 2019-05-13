@@ -11,5 +11,6 @@ composer.phar
 vendor
 output
 docs
+.vscode
 
 tests/config/*.ini
