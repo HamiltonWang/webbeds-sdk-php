@@ -29,7 +29,7 @@ use webbeds\hotel_api_sdk\messages\search\GetTransferTypesResp;
 use webbeds\hotel_api_sdk\model\TransferType;
 use PHPUnit\Framework\TestCase;
 
-class HotelApiClientTest extends TestCase
+class GetTransferTypesTest extends TestCase
 {
     /**
      * @var HotelApiClient

@@ -29,7 +29,7 @@ use webbeds\hotel_api_sdk\messages\search\GetRoomNoteTypesResp;
 use webbeds\hotel_api_sdk\model\RoomNoteType;
 use PHPUnit\Framework\TestCase;
 
-class HotelApiClientTest extends TestCase
+class RoomNoteTypeTest extends TestCase
 {
     /**
      * @var HotelApiClient

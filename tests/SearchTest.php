@@ -29,7 +29,7 @@ use webbeds\hotel_api_sdk\messages\search\SearchResp;
 use webbeds\hotel_api_sdk\model\Search;
 use PHPUnit\Framework\TestCase;
 
-class HotelApiClientTest extends TestCase
+class SearchTest extends TestCase
 {
     /**
      * @var HotelApiClient

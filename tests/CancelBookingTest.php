@@ -29,7 +29,7 @@ use webbeds\hotel_api_sdk\messages\book\CancelBookingResp;
 
 use PHPUnit\Framework\TestCase;
 
-class HotelApiClientTest extends TestCase
+class CancelBookingTest extends TestCase
 {
     /**
      * @var HotelApiClient

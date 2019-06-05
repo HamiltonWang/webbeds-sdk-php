@@ -29,7 +29,7 @@ use webbeds\hotel_api_sdk\messages\search\GetFeaturesResp;
 use webbeds\hotel_api_sdk\model\Feature;
 use PHPUnit\Framework\TestCase;
 
-class HotelApiClientTest extends TestCase
+class FeatureTest extends TestCase
 {
     /**
      * @var HotelApiClient

@@ -29,7 +29,7 @@ use webbeds\hotel_api_sdk\messages\book\PreBookV2Resp;
 use webbeds\hotel_api_sdk\model\Book;
 use PHPUnit\Framework\TestCase;
 
-class HotelApiClientTest extends TestCase
+class PreBookV2Test extends TestCase
 {
     /**
      * @var HotelApiClient

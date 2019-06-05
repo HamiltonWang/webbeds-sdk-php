@@ -26,7 +26,7 @@ use webbeds\hotel_api_sdk\messages\baseClass\ApiResponse;
 use webbeds\hotel_api_sdk\model\search\RoomNoteTypeIterator;
 
 /**
- * Class RoomNoteTypeResp
+ * Class RoomNoteTypesResp
  * @package webbeds\hotel_api_sdk\messages
  * @property RoomNoteTypes roomNoteTypes used for hotel content
  */

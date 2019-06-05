@@ -29,7 +29,7 @@ use webbeds\hotel_api_sdk\messages\book\GetBookingInfoResp;
 
 use PHPUnit\Framework\TestCase;
 
-class HotelApiClientTest extends TestCase
+class GetBookingInfoTest extends TestCase
 {
     /**
      * @var HotelApiClient

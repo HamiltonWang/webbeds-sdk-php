@@ -15,7 +15,7 @@ use webbeds\hotel_api_sdk\model\ApiModel;
  * @property string userName User Name to use webBeds API
  * @property string password Password to use webBeds API
  */
-class RoomNoteType extends ApiModel
+class RoomNoteTypes extends ApiModel
 {
     /**
      * RoomNoteTypes constructor.
